@@ -1,0 +1,60 @@
+{
+  "name": "mailjet",
+  "type": "typo3-cms-extension",
+  "version": "1.0.0",
+  "description": "Mailjet integration to let users subscribe to a specific list.",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "mailjet"
+  ],
+  "homepage": "http://maijlet.com",
+  "authors": [
+    {
+      "name": "Alex Jelin",
+      "role": "Developer",
+      "homepage": "http://maijlet.com"
+    }
+  ],
+  "license": [
+    "GPL-2.0+"
+  ],
+  "require": {
+    "typo3/cms-core": ">=7.6.0,<8.3"
+  },
+  "suggest": {
+    "typo3-ter/typoscript-rendering": "~1.0"
+  },
+  "require-dev": {
+    "php": ">=5.6.0",
+    "phpunit/phpunit": "~5.3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Api\\Mailjet\\": "Classes"
+    }
+  },
+  "replace": {
+    "mailjet": "self.version",
+    "typo3-ter/mailjet": "self.version"
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/mailjet ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mailjet"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.0"
+    },
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
+}

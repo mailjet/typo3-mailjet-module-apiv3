@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <type>module</type>
+        <description>Language labels for Mailjet</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <!-- Backend -->
+            <label index="plugin.title">Mailjet</label>
+            <label index="plugin.description">Create and edit a form to let users subscribe to a specific Mailjet list.</label>
+            <label index="flexform.title">Title</label>
+            <label index="flexform.list">Mailjet contact list - Select a contact list where all new subscribers will be added. You can create additional contact lists at Mailjet.</label>
+            <label index="flexform.prop">Contact properties - Select which contact properties to show on your Mailjet subscription form.</label>
+            <label index="flexform.prop1">Label for Mailjet Contact property 1 - Please enter a label that matches of the first select contact property in  previous field (Contact properties). </label>
+            <label index="flexform.prop2">Label for Mailjet Contact property 2 - Please enter a label that matches of the second select contact property in  previous field (Contact properties). </label>
+            <label index="flexform.prop3">Label for Mailjet Contact property 3 - Please enter a label that matches of the third select contact property in  previous field (Contact properties). </label>
+            <label index="flexform.prop1desc">Description for Mailjet Contact property 1 </label>
+            <label index="flexform.prop2desc">Description for Mailjet Contact property 2 </label>
+            <label index="flexform.prop3desc">Description for Mailjet Contact property 3 </label>
+            <label index="flexform.description">Description for Form </label>
+            <label index="flexform.description">Description for Form </label>
+            <label index="flexform.submitLabel">Submit Button Label</label>
+            <label index="flexform.headingText">Email Heading Text</label>
+            <label index="flexform.bodyText"> Email body text </label>
+            <label index="flexform.confButton">Email Confirmation Button Text- This is the text of the button inside the subscription confirmation email.</label>
+            <label index="flexform.emailFooterMail"> Email footer text</label>
+            <label index="flexform.thanks">Thanks, ....</label>
+            <label index="flexform.owner"> Owner - Site owner name, shown at the end of the subscription confirmation email.</label>
+            <label index="flexform.confMessage">Confirmation Message - Subscription confirmation email sent to %email. Please check your inbox and confirm the subscription. -> The '%' symbol will be replaced by the email of the current user.</label>
+            <label index="flexform.dataTypeMessage"> Data type mismatch error - Please enter your error message. The '%id' symbol will be replaced by the name of property.</label>
+            <label index="flexform.subscribeError">Subscribe error. Please try again later! -  This message will appear in case an error occured during subscription form submission.</label>
+            <label index="flexform.memberExist">  The contact % is already subscribed - This message will appear when the subscriber already exists in your Mailjet contact list. The % symbol will be replaced by the email address of the subscriber.</label>
+            <label index="flexform.finalMessage">"Thanks for subscribing... " message - This message will appear when the subscriber is successfully added to the contact list. </label>
+            <label index="flexform.email">Label for email field</label>
+            <label index="flexform.emailSender">Email FROM address - this is required field! This is email from address for confirmation email! If the field is empty when user sumbit a form will throw a error! </label> 
+            <!-- Frontend -->
+            <label index="field.email">Email</label>
+            <label index="field.firstName">First name</label>
+            <label index="field.lastName">Last name</label>
+            <label index="field.email">Email</label>
+            <label index="field.interests">Interests</label>
+            <label index="error.memberExists">You are already registered with this email address!</label>
+            <label index="error.general">A general error occurred, sorry!</label>
+            <label index="error.form.email.1221560718">Please provide an email address!</label>
+            <label index="error.form.email.1221559976">The provided email address is invalid!</label>
+            <label index="success.title">You have successfully registered!</label>
+            <label index="success.description">Please check your emails to activate the registration!</label>
+            <label index="form.submit">Submit</label>
+            <label index="memberCount">Count of members</label>
+        </languageKey>
+    </data>
+</T3locallang>

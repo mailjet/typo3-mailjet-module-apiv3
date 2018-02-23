@@ -6,7 +6,7 @@
         <sDEF>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.title</sheetTitle>
+                    <sheetTitle>Subscription form  configuration</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
@@ -118,6 +118,19 @@
                             </config>
                         </TCEforms>
                     </settings.submitLabel>
+                     </el>
+            </ROOT>
+        </sDEF>
+                    
+                    <sDEF2>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Confirmation email customization</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <!-- List -->
+                    
                     <settings.headingText>
                         <TCEforms>
                             <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.headingText</label>
@@ -166,7 +179,21 @@
                             </config>
                         </TCEforms>
                     </settings.owner>
-                    <settings.confMessage>
+                  
+                </el>
+            </ROOT>
+        </sDEF2>
+        
+        
+                     <sDEF3>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Messages and errors</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    
+                      <settings.confMessage>
                         <TCEforms>
                             <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.confMessage</label>
                             <config>
@@ -216,8 +243,10 @@
                             </config>
                         </TCEforms>
                     </settings.emailSender>
-                </el>
+        
+                        </el>
             </ROOT>
-        </sDEF>
+        </sDEF3>
+        
     </sheets>
 </T3DataStructure>

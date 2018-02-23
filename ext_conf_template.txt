@@ -1,75 +1,50 @@
+############################
+### CUSTOM SUBCATEGORIES ###
+###########################
 
-# cat=Mailjet settings - API access; type=string; label=API key;
+# customcategory=api=API settings
+# customsubcategory=901=
+
+############
+### Text ###
+############
+
+# cat=api/901; type=user[EXT:mailjet/Classes/Utility/ExtensionManager.php:Mailjet\Ext\ExtensionManager->apiDescription]; label=API settings;
+apiset = desc
+
+# cat=api/901; type=string; label=API key;
 apiKeyMailjet=
 
-# cat=Mailjet settings - API access; type=string;  label=Secret Key:Welcome to the Mailjet Configuration page.If you are new to Mailjet, please register by clicking on the button above.Should you already have a pre-existing Mailjet account, please copy and paste your Mailjet API Key and Secret Key which can be found in https://app.mailjet.com/account/api_keys.
+# cat=api/901; type=string;  label=Secret Key
 secretKey=
 
-# cat=Mailjet settings ; type=boolean; label=Send emails through Mailjet:Enable this option only if you installed PHPMailer library.;
+# cat=api/901; type=string;  label=Sender email address;
+sender=
+
+# cat=api/901; type=user[EXT:mailjet/Classes/Utility/ExtensionManager.php:Mailjet\Ext\ExtensionManager->statusSync];  label=API status >;
+api_status=status
+
+# cat=General Settings ; type=boolean; label=Send emails through Mailjet:Enable this option only if you installed PHPMailer library.;
 Send=
 
-# cat=Mailjet settings ; type=boolean; label=Allow HTML:If checked, the body of the e-mail will allow html code. If unchecked, the body will be converted to plain text.
+# cat=General Settings ; type=boolean; label=Allow HTML:If checked, the body of the e-mail will allow html code. If unchecked, the body will be converted to plain text.
 allowHtml=
 
-# cat=Mailjet settings ; type=user; label=Log into app.mailjet.com/account/triggers and paste the URL below into the ENDPOINT URL field corresponding to the events you want to track in Drupal. Then check the same events below. Synchronization between your stored configuration options and  Mailjet database has come after bulding a block for subscription form in some region on a your page. When the administrator access the page with maijet subscription form and the configuration options are changed, options and Mailjet DB will sync.;
-openEvents=
-
-# cat=Mailjet settings ; type=boolean; label=openEvents;
-openEventss=
-
-# cat=Mailjet settings ; type=boolean; label=Click events;
-clickEvents=
-
-# cat=Mailjet settings ; type=boolean; label=Bounce events;
-bounceEvents=
-
-# cat=Mailjet settings ; type=boolean; label=Spam events;
-spamEvents=
-
-# cat=Mailjet settings ; type=boolean; label=Blocked events;
-blockedEvents=
-
-# cat=Mailjet settings ; type=boolean; label=Unsub events;
-unsubEvents=
-
-# cat=Mailjet settings; type=user; label=ACCOUNT INFORMATION;
-accInfo =
-
-# cat=Mailjet settings; type=string; label=First name;
-first_name =
-
-# cat=Mailjet settings; type=string; label=Last name;
-last_name =
-
-# cat=Mailjet settings; type=string; label=Company Name;
-company_name =
-
-# cat=Mailjet settings; type=string; label=Address;
-address =
-
-# cat=Mailjet settings; type=string; label=City;
-city =
-
-# cat=Mailjet settings; type=string; label=Postal Code / Zip Cod: Max. length of zip code - 10 numbers;
-zip_code =
-
-# cat=Mailjet settings; type=string; label=Country : Example: Germany;
-country =
-
-# cat=Mailjet settings; type=string; label=Send email TO:Please enter email form address.;
-email_to =
-
-# cat=Mailjet settings; type=string; label=Send email FROM : Please enter email from who is send test email.;
-email_from =
-
-# cat=Mailjet settings; type=string; label=Mailjet SMTP host : Default - in-v3.mailjet.com;
+# cat=General Settings ; type=string; label=Mailjet SMTP host : Default - in-v .mailjet.com;
 smtp_host =
 
-# cat=Mailjet settings; type=string; label=Mailjet SMTP port : Default - 587;
+
+# cat=General Settings ; type=string; label=Mailjet SMTP port : Port 465 - SSL only. Ports 25, 2525, 80, 587, 588 - TLS or no encryption;
 smtp_port=
 
-# cat=Mailjet settings; type=string; label=SMTPSecure : Default - empty. Example: tls or ssl.;
+# cat=General Settings ; type=string; label=Enable SSL communication with mailjet.com;
 smtp_secure=
 
-# cat=Mailjet settings; type=user; label=Sync field;
+# cat=General Settings ; type=string; label=Test email recipient;
+email_to =
+
+# cat=Account information; type=user[EXT:mailjet/Classes/Utility/ExtensionManager.php:Mailjet\Ext\ExtensionManager->accountInfo]; label=ACCOUNT INFORMATION;
+accInfo = info
+
+# cat=Account information; type=user; label=Sync field;
 sync_field =

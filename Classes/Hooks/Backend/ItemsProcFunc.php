@@ -31,6 +31,11 @@ class ItemsProcFunc {
       $mailjet = $this->api_mailjet;
       $contact_lists = $mailjet->contactslist()->getResponse();
 
+      if ($contact_lists == NULL) {
+        echo "<div style='color:red;font-size:33px;font-family:Verdana,Arial,Helvetica,sans-serif;'>Please enter correct API KEYS!</div>";
+        exit;
+      }
+
       $lists = [];
       $counter_contact = 0;
       $contact_lists = [];
@@ -47,7 +52,7 @@ class ItemsProcFunc {
         array_push($config['items'], [$title, $id]);
       }
     } catch (\Exception $e) {
-      // do nothing
+      //
     }
   }
 
@@ -78,7 +83,7 @@ class ItemsProcFunc {
         array_push($config['items'], [$name, $id]);
       }
     } catch (\Exception $e) {
-      // do nothing
+      //
     }
   }
 }

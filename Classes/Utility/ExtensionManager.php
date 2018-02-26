@@ -88,9 +88,7 @@ class ExtensionManager {
         $email_send = '<div style="font-size:20px;">Email is send!</div>';
       }
     }
-    else {
-      $mailjetOptionsUpdater->saveConfiguration('email_to', '');
-    }
+
 
     return $result_string . $status_sender . $email_send;
   }

@@ -30,7 +30,7 @@ class ItemsProcFunc {
 
       $mailjet = $this->api_mailjet;
       $contact_lists = $mailjet->contactslist()->getResponse();
-
+ 
       if ($contact_lists == NULL) {
         echo "<div style='color:red;font-size:33px;font-family:Verdana,Arial,Helvetica,sans-serif;'>Please enter correct API KEYS!</div>";
         exit;
@@ -63,7 +63,6 @@ class ItemsProcFunc {
    */
   public function getProperties(array &$config) {
     try {
-
       $properties = [];
       $mj = $this->api_mailjet;
 
@@ -77,6 +76,8 @@ class ItemsProcFunc {
           $properties[$property->Name] = $property->Name;
         }
       }
+
+     asort($properties);
 
       foreach ($properties as $id => $value) {
         $name = sprintf('%s [%s]', $value, $id);

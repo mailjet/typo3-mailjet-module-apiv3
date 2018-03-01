@@ -139,7 +139,7 @@ class FormController extends ActionController {
         $error_input_data_types = '<div class="error error-fields">' . $error_input_data_types . '</div>';
         $type = '';
         if (!empty($field['value'])) {
-          $error_input_data_types = str_replace("<%id>", $key, $error_input_data_types);
+          $error_input_data_types = str_replace("%id", $key, $error_input_data_types);
           $params = ['method' => 'GET', 'limit' => 0,];
           $response = $mailjet->ContactMetaData($params)->getResponse();
           if ($response && isset($response->Count) && $response->Count >= 0) {
@@ -150,21 +150,29 @@ class FormController extends ActionController {
               }
             }
           }
+
           switch ($type) {
             case 'int':
               if (!preg_match('/^[0-9]{1,45}$/', $field['value']) && !empty($field['value'])) {
+                $error_input_data_types = str_replace("%type", 'number', $error_input_data_types);
+
                 print $error_input_data_types . "Example (numbers): 1234";
                 $errorMess = TRUE;
               }
               break;
             case 'str':
               if (!(is_string($field['value'])) && !empty($field['value'])) {
+                $error_input_data_types = str_replace("%type", 'string', $error_input_data_types);
+
                 print $error_input_data_types . "Example (text): First Name";
                 $errorMess = TRUE;
               }
               break;
             case 'datetime':
               if (!preg_match("/^\s*(3[01]|[12][0-9]|0?[1-9])\-(1[012]|0?[1-9])\-((?:19|20)\d{2})\s*$/", $field['value']) && !empty($field['value'])) {
+
+                $error_input_data_types = str_replace("%type", 'datetime', $error_input_data_types);
+
                 print $error_input_data_types . "Example (DATE): 26-02-2017";
                 $errorMess = TRUE;
               }
@@ -173,6 +181,8 @@ class FormController extends ActionController {
                   $date = $field['value'];
                   $date_array = explode("-", $date);
                   if (checkdate($date_array[1], $date_array[0], $date_array[2]) == FALSE) {
+                    $error_input_data_types = str_replace("%type", 'datetime', $error_input_data_types);
+
                     print $error_input_data_types . "Example (DATE): 26-02-2017";
                     $errorMess = TRUE;
                   }
@@ -181,6 +191,8 @@ class FormController extends ActionController {
               break;
             case 'bool':
               if (!(strtoupper($field['value']) == 'TRUE' || strtoupper($field['value']) == 'FALSE') && !empty($field['value'])) {
+                $error_input_data_types = str_replace("%type", 'bool (true or false)', $error_input_data_types);
+
                 print $error_input_data_types . "Example : True or False";
                 $errorMess = TRUE;
               }
@@ -218,7 +230,7 @@ class FormController extends ActionController {
       }
       $email_heading_text = !empty($form->getHeadingText()) ? $form->getHeadingText() : 'Please Confirm Your Subscription To';
       $member_exist_text = !empty($form->getMemberExist()) ? $form->getMemberExist() : 'Subscriber exists in Mailjet database! Try different email address for subscribe.';
-      $member_exist_text = str_replace('%', $email, $member_exist_text);
+      $member_exist_text = str_replace('%email', $email, $member_exist_text);
       $final_message = !empty($form->getFinalMessage()) ? $form->getFinalMessage() : "Success!";
       $email_sender = $form->getEmailSender();
       $owner = !empty($form->getOwner()) ? $form->getOwner() : 'Mailjet';
@@ -336,69 +348,56 @@ class FormController extends ActionController {
         }
         $base_url = '';
         $tempalate = '<div style="width: 100%; background-color: white; box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.35);">
-
-  <table class="mockup-content paint-area" style="background-color: white; font-family: Ubuntu, Helvetica; border-collapse: collapse; width: 100%;">
-
-    <tbody>
-
-    <tr style="text-align: center; padding: 0 0 20px 0;">
-
-      <td style="height: 75px; line-height: 75px; width: 100%; vertical-align: middle;">
-
-        <span id="opt-in-subscribe-title" class="paint-area paint-area--text" contenteditable="true" style="font-family: Ubuntu, Helvetica; font-size: 18px; color: #333333; line-height: normal;"><b class="medium-b">' . $email_heading_text . '</b></span>
-
-      </td>
-
-    </tr>
-
-    <tr>
-
-      <td style="height: 75px; line-height: 75px; width: 100%; vertical-align: middle; padding: 0 60px;">
-
-        <div id="opt-in-display-text" class="paint-area paint-area--text" style="text-align: center; color: grey; margin-bottom: 25px; line-height: normal;" contenteditable="true">' . $url . '</div></td></tr>
-
-    <tr>
-
-      <td><a rel="notrack" class="subscribe" href="' . $link . '" style="text-align: center;display: block;color: white;font-weight: 500;
-
-                font-size: 15px;background-color: #3da7ea;text-transform: uppercase;text-decoration: none;width: 260px;margin:
-
-                auto;border-radius: 5px;padding: 16px;">' . $email_text_button . '</a></td>
-
-    </tr>
-
-    <tr>
-
-      <td style="padding: 30px;" >
-
-        <span style="text-align: center;display: block; font-weight:bold; font-size:14px; text-decoration: none;">' . $email_description . '</span> <br />
-
-        <a rel="notrack" class="subscribe" href="' . $link . '" style="text-align: center;display: block;color: black; font-size: 12px; text-decoration: underline; margin: auto;">
-
-          ' . $link . '
-
-        </a>
-
-      </td>
-
-    </tr>
-
-
-
-    <tr><td style="text-align: left; height: 75px; line-height: 75px; width: 100%; vertical-align: middle; padding: 0 60px;"><div id="opt-in-footer" class="paint-area paint-area--text" contenteditable="true" style="display: inline-block; font-family: Ubuntu, Helvetica; text-align: left; margin-bottom: 24px; color: grey; line-height: normal;"><i class="medium-i">' . $email_text_description . '</i></div></td></tr>
-
-
-
-
-
-    <tr><td style="text-align: left; padding: 0 60px; height: 30px; line-height: 30px;"><div id="opt-in-signature-top" class="paint-area paint-area--text" contenteditable="true" style="font-family: Ubuntu, Helvetica; display: inline-block; text-align: left; color: grey; line-height: normal;">' . $email_footer_text . '</div></td></tr>
-
-    <tr><td style="text-align: left; padding: 0 60px; height: 30px; line-height: 30px;"><div id="opt-in-signature-bottom" class="paint-area paint-area--text" contenteditable="true" style="font-family: Ubuntu, Helvetica; display: inline-block; text-align: left; color: grey; line-height: normal;"><b class="medium-b">' . $owner . '</b></div></td></tr>
-
-    </tbody>
-
-  </table>
-
+   <table class="mockup-content paint-area" style="background-color: white; font-family: Ubuntu, Helvetica; border-collapse: collapse; width: 100%;">
+      <tbody>
+         <tr style="text-align: center; padding: 0 0 20px 0;">
+            <td style="height: 75px; line-height: 75px; width: 100%; vertical-align: middle;">
+               <span id="opt-in-subscribe-title" class="paint-area paint-area--text" contenteditable="true" style="font-family: Ubuntu, Helvetica; font-size: 18px; color: #333333; line-height: normal;"><b class="medium-b">' . $email_heading_text . '</b></span>
+            </td>
+         </tr>
+         <tr>
+            <td style="height: 75px; line-height: 75px; width: 100%; vertical-align: middle; padding: 0 60px;">
+               <div id="opt-in-display-text" class="paint-area paint-area--text" style="text-align: center; color: grey; margin-bottom: 25px; line-height: normal;" contenteditable="true">' . $url . '</div>
+            </td>
+         </tr>
+         <tr>
+         
+            <tr>
+            <td style="text-align: left; height: 50px; line-height: 75px; width: 100%; vertical-align: middle; padding: 0 10px;">
+               <div id="opt-in-footer" class="paint-area paint-area--text" contenteditable="true" style="display: inline-block; font-family: Ubuntu, Helvetica; text-align: left; margin-bottom: 24px; color: grey; line-height: normal;"><i class="medium-i">' . $email_text_description . '</i></div>
+            </td>
+         </tr>
+         <tr>
+         
+            <td style="padding: 30px;" >
+               <span style="text-align: center;display: block; font-weight:bold; font-size:14px; text-decoration: none;">' . $email_description . '</span> <br />
+               <a rel="notrack" class="subscribe" href="' . $link . '" style="text-align: center;display: block;color: black; font-size: 12px; text-decoration: underline; margin: auto;">
+               ' . $link . '
+               </a>
+            </td>
+         </tr>
+         <tr>
+            <td><a rel="notrack" class="subscribe" href="' . $link . '" style="text-align: center;display: block;color: white;font-weight: 500;
+               font-size: 15px;background-color: #3da7ea;text-transform: uppercase;text-decoration: none;width: 260px;margin:
+               auto;border-radius: 5px;padding: 16px;">' . $email_text_button . '</a></td>
+         </tr>
+      <tr><br/><br/><br/></tr>
+            <td style="text-align: left; padding: 0 60px; height: 30px; line-height: 30px;">
+               <div id="opt-in-signature-top" class="paint-area paint-area--text" contenteditable="true" style="font-family: Ubuntu, Helvetica; display: inline-block; text-align: left; color: grey; line-height: normal;">' . $email_footer_text . '</div>
+            </td>
+         </tr>
+         <tr>
+            <td style="text-align: left; padding: 0 60px; height: 30px; line-height: 30px;">
+               <div id="opt-in-signature-top" class="paint-area paint-area--text" contenteditable="true" style="font-family: Ubuntu, Helvetica; display: inline-block; text-align: left; color: grey; line-height: normal;">' . $email_text_thank_you . '</div>
+            </td>
+         </tr>
+         <tr>
+            <td style="text-align: left; padding: 0 60px; height: 30px; line-height: 30px;">
+               <div id="opt-in-signature-bottom" class="paint-area paint-area--text" contenteditable="true" style="font-family: Ubuntu, Helvetica; display: inline-block; text-align: left; color: grey; line-height: normal;"><b class="medium-b">' . $owner . '</b></div>
+            </td>
+         </tr>
+      </tbody>
+   </table>
 </div>';
         $host = "in-v3.mailjet.com";
         $smtpPort = 587;

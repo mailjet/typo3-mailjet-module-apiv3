@@ -6,7 +6,7 @@
         <sDEF>
             <ROOT>
                 <TCEforms>
-                    <sheetTitle>Subscription form  configuration</sheetTitle>
+                    <sheetTitle>Subscription form configuration</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
@@ -118,11 +118,11 @@
                             </config>
                         </TCEforms>
                     </settings.submitLabel>
-                     </el>
+                </el>
             </ROOT>
         </sDEF>
-                    
-                    <sDEF2>
+
+        <sDEF2>
             <ROOT>
                 <TCEforms>
                     <sheetTitle>Confirmation email customization</sheetTitle>
@@ -130,7 +130,7 @@
                 <type>array</type>
                 <el>
                     <!-- List -->
-                    
+
                     <settings.headingText>
                         <TCEforms>
                             <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.headingText</label>
@@ -157,7 +157,8 @@
                     </settings.confButton>
                     <settings.emailFooterMail>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.emailFooterMail</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.emailFooterMail
+                            </label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -179,21 +180,35 @@
                             </config>
                         </TCEforms>
                     </settings.owner>
-                  
+
                 </el>
             </ROOT>
         </sDEF2>
-        
-        
-                     <sDEF3>
+
+
+        <sDEF3>
             <ROOT>
                 <TCEforms>
                     <sheetTitle>Messages and errors</sheetTitle>
                 </TCEforms>
                 <type>array</type>
                 <el>
-                    
-                      <settings.confMessage>
+
+                    <settings.emailSender>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.emailSender</label>
+                            <config>
+                                <type>input</type>
+                                <eval>email</eval>
+                                <placeholder>
+                                    LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.placeholder
+                                </placeholder>
+                                <minitems>1</minitems>
+                            </config>
+                        </TCEforms>
+                    </settings.emailSender>
+
+                    <settings.confMessage>
                         <TCEforms>
                             <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.confMessage</label>
                             <config>
@@ -203,7 +218,8 @@
                     </settings.confMessage>
                     <settings.dataTypeMessage>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.dataTypeMessage</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.dataTypeMessage
+                            </label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -211,7 +227,8 @@
                     </settings.dataTypeMessage>
                     <settings.subscribeError>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.subscribeError</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.subscribeError
+                            </label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -225,28 +242,20 @@
                             </config>
                         </TCEforms>
                     </settings.memberExist>
-                   
+
                     <settings.finalMessage>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.finalMessage</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.finalMessage
+                            </label>
                             <config>
                                 <type>input</type>
-                            </config>
-                        </TCEforms> 
-                    </settings.finalMessage>
-                     <settings.emailSender>
-                        <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.emailSender</label>
-                            <config>
-                                <type>input</type>
-                                <minitems>1</minitems>
                             </config>
                         </TCEforms>
-                    </settings.emailSender>
-        
-                        </el>
+                    </settings.finalMessage>
+
+                </el>
             </ROOT>
         </sDEF3>
-        
+
     </sheets>
 </T3DataStructure>

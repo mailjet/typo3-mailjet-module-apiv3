@@ -200,9 +200,6 @@
                             <config>
                                 <type>input</type>
                                 <eval>email</eval>
-                                <placeholder>
-                                    LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.placeholder
-                                </placeholder>
                                 <minitems>1</minitems>
                             </config>
                         </TCEforms>

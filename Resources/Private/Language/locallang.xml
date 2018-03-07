@@ -52,7 +52,7 @@
                 in case an error occured during subscription form submission.
             </label>
             <label index="flexform.memberExist">The contact %email is already subscribed - This message will appear when
-                the subscriber already exists in your Mailjet contact list. The % symbol will be replaced by the email
+                the subscriber already exists in your Mailjet contact list. The %email symbol will be replaced by the email
                 address of the subscriber.
             </label>
             <label index="flexform.finalMessage">"Thanks for subscribing... " message - This message will appear when

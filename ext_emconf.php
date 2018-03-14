@@ -1,12 +1,12 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-  'title' => 'Mailjet',
-  'description' => 'Send your emails by your MailJet API.',
+  'title' => 'Mailjet Email Marketing',
+  'description' => "Use Mailjet's SMTP to send Typo3 transactional emails. Add newsletter subscribers from Typo3 to your Mailjet contact lists.",
   'category' => 'plugin',
-  'author' => '',
-  'author_email' => 'example@mail.com',
-  'state' => 'beta',
+  'author' => 'Mailjet',
+  'author_email' => 'plugins@mailjet.com',
+  'state' => '',
   'internal' => '',
   'uploadfolder' => '1',
   'createDirs' => '',

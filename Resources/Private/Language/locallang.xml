@@ -29,13 +29,13 @@
             <label index="flexform.prop3desc">Description for the third contact property in the form</label>
             <label index="flexform.placeholder">example@domain.com</label>
             <label index="flexform.description">Form description</label>
-            <label index="flexform.submitLabel">Submit Button Label</label>
-            <label index="flexform.headingText">Email Heading Text</label>
-            <label index="flexform.bodyText">Email Body Text</label>
-            <label index="flexform.confButton">Email Confirmation Button Text - This is the text of the button inside the
+            <label index="flexform.submitLabel">Submit Button label</label>
+            <label index="flexform.headingText">Email Heading text</label>
+            <label index="flexform.bodyText">Email Body text</label>
+            <label index="flexform.confButton">Email Confirmation Button text - This is the text of the button inside the
                 subscription confirmation email.
             </label>
-            <label index="flexform.emailFooterMail">Email Footer Text</label>
+            <label index="flexform.emailFooterMail">Email Footer text</label>
             <label index="flexform.thanks">Thanks,</label>
             <label index="flexform.owner">Owner - Site owner name, shown at the end of the subscription confirmation
                 email.

@@ -44,22 +44,22 @@ class ExtensionManager {
           ];
           $result = $mailjet->sender($params);
           $senders = $result->getResponse()->Data;
-          $status_sender = '<div style="font-size:20px;">Please enter other email addres. The current email is inactive!</div>';
+          $status_sender = '<div style="font-size:20px;"><span style="color:red">Invalid email address!</span> Use a <a style="text-decoration: underline;" href="https://app.mailjet.com/account/sender" target="_blank">valid sender address</a> from your Mailjet account.</div>';
           foreach ($senders as $sender) {
             if ($settings['sender'] == $sender->Email && $sender->status = 'Active') {
-              $status_sender = '<div style="font-size:20px;">Your email sender is correct!</div>';
+              $status_sender = '<div style="font-size:20px;">Your sender email is correct!</div>';
               $mailjetOptionsUpdater->saveConfiguration('sync_field', 'on');
             }
           }
 
           if (!empty($settings['email_to']) && $settings['sync_field'] != 'on') {
-            $status_sender .= '<div style="font-size:20px;">The test email is not send! Please enter the correct email.</div>';
+            $status_sender .= '<div style="font-size:20px;">The test email was not sent! Please enter a <a style="text-decoration: underline;" href="https://app.mailjet.com/account/sender" target="_blank">valid sender address</a>.</div>';
             $mailjetOptionsUpdater->saveConfiguration('email_to', '');
           }
         }
         else {
           if (!empty($settings['email_to'])) {
-            $status_sender = '<div style="font-size:20px;">The test email is not send! Please enter the correct email.</div>';
+            $status_sender = '<div style="font-size:20px;">The test email was not sent! Please enter a <a style="text-decoration: underline;" href="https://app.mailjet.com/account/sender" target="_blank">valid sender address</a>.</div>';
             $mailjetOptionsUpdater->saveConfiguration('email_to', '');
           }
         }
@@ -85,17 +85,15 @@ class ExtensionManager {
           ->setBody('Your configuration is OK!')
           ->send();
         $mailjetOptionsUpdater->saveConfiguration('email_to', '');
-        $email_send = '<div style="font-size:20px;">Email is send!</div>';
+        $email_send = '<div style="font-size:20px;">Test email sent successfully!</div>';
       }
     }
-
 
     return $result_string . $status_sender . $email_send;
   }
 
-
   function apiDescription() {
-    $result_string = "<div><b>Welcome to the Mailjet Configuration page. If you are new to Mailjet, please <a style='text-decoration: underline;' href='https://app.mailjet.com/signup' target='_blank'>register an account. </a>Should you already have a pre-existing Mailjet account, please copy and paste your Mailjet API Key and Secret Key which can be found in <a style='text-decoration: underline;' href='https://app.mailjet.com/account/api_keys' target='_blank'>https://app.mailjet.com/account/api_keys</a>.</b></div>";
+    $result_string = "<div><strong>Welcome to the Mailjet Configuration page. If you are new to Mailjet, please <a style='text-decoration: underline;' href='https://app.mailjet.com/signup?aff=typo3' target='_blank'>create an account</a>.</strong><br /> Should you already have a pre-existing Mailjet account, you can find your API Key and Secret Key <a style='text-decoration: underline;' href='https://app.mailjet.com/account/api_keys' target='_blank'>here</a>.</div>";
 
     return $result_string;
   }

@@ -252,12 +252,8 @@ class MailJet {
     curl_setopt($this->_curl_handle, CURLOPT_HTTPHEADER, ["Content-Type: " . $contType]);
     curl_setopt($this->_curl_handle, CURLOPT_SSL_VERIFYPEER, FALSE);
     curl_setopt($this->_curl_handle, CURLOPT_SSL_VERIFYHOST, 2);
-    if (drupal_get_profile() == 'standard') {
-      curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'drupal-3.0');
-    }
-    elseif (drupal_get_profile() == 'commerce_kickstart') {
-      curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'kickstart');
-    }
+    curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'typo3-v1');
+
     curl_setopt($this->_curl_handle, CURLOPT_USERPWD, $this->_apiKey . ':' . $this->_secretKey);
 
     if ($lastID) {

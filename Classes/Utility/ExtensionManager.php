@@ -23,7 +23,7 @@ class ExtensionManager {
     $status_sender = '';
     if ((!empty($settings['apiKeyMailjet']) && !empty($settings['secretKey'])) && ($settings['apiKeyMailjet'] != '' && $settings['secretKey'] != '')) {
 
-      $result_string = '<div style="font-weight:bold !important;color:red;font-size:20px;"> Error </div> <div style="font-size:20px;"> Login Failed Wrong User Credentials! Enter api key and secret key again!</div>';
+      $result_string = '<div style="font-weight:bold !important;color:red;font-size:20px;">Error</div><div style="font-size:20px;">Login Failed: Wrong user credentials! Check your API key and secret key!</div>';
 
       $mailjetOptionsUpdater = GeneralUtility::makeInstance('Api\\Mailjet\\Domain\\Model\\Dto\\MailjetOptionsUpdater');
       $mailjetOptionsUpdater->saveConfiguration('sync_field', 'off');
@@ -47,7 +47,7 @@ class ExtensionManager {
           $status_sender = '<div style="font-size:20px;"><span style="color:red">Invalid email address!</span> Use a <a style="text-decoration: underline;" href="https://app.mailjet.com/account/sender" target="_blank">valid sender address</a> from your Mailjet account.</div>';
           foreach ($senders as $sender) {
             if ($settings['sender'] == $sender->Email && $sender->status = 'Active') {
-              $status_sender = '<div style="font-size:20px;">Your sender email is correct!</div>';
+              $status_sender = '<div style="font-size:20px;">Your sender email address is correct!</div>';
               $mailjetOptionsUpdater->saveConfiguration('sync_field', 'on');
             }
           }

@@ -93,7 +93,7 @@ class ExtensionManager {
   }
 
   function apiDescription() {
-    $result_string = "<div><strong>Welcome to the Mailjet Configuration page. If you are new to Mailjet, please <a style='text-decoration: underline;' href='https://app.mailjet.com/signup?aff=typo3' target='_blank'>create an account</a>.</strong><br /> Should you already have a pre-existing Mailjet account, you can find your API Key and Secret Key <a style='text-decoration: underline;' href='https://app.mailjet.com/account/api_keys' target='_blank'>here</a>.</div>";
+    $result_string = "<div><strong>Welcome to the Mailjet Configuration page. If you are new to Mailjet, please <a style='text-decoration: underline;' href='https://app.mailjet.com/signup?p=typo3' target='_blank'>create an account</a>.</strong><br /> Should you already have a pre-existing Mailjet account, you can find your API Key and Secret Key <a style='text-decoration: underline;' href='https://app.mailjet.com/account/api_keys' target='_blank'>here</a>.</div>";
 
     return $result_string;
   }

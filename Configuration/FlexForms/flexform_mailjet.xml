@@ -1,0 +1,258 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Subscription form configuration</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <!-- List -->
+                    <settings.listId>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.list</label>
+                            <config>
+                                <type>select</type>
+                                <itemsProcFunc>Api\Mailjet\Hooks\Backend\ItemsProcFunc->getLists</itemsProcFunc>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0"></numIndex>
+                                        <numIndex index="1"></numIndex>
+                                    </numIndex>
+                                </items>
+                                <minitems>1</minitems>
+                            </config>
+                        </TCEforms>
+                    </settings.listId>
+                    <!-- Properties -->
+                    <settings.properties>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop</label>
+                            <config>
+                                <type>select</type>
+                                <itemsProcFunc>Api\Mailjet\Hooks\Backend\ItemsProcFunc->getProperties</itemsProcFunc>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0"></numIndex>
+                                        <numIndex index="1"></numIndex>
+                                    </numIndex>
+                                </items>
+                                <minitems>0</minitems>
+                                <maxitems>3</maxitems>
+                            </config>
+                        </TCEforms>
+                    </settings.properties>
+                    <!-- Labels -->
+                    <settings.email>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.email</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.email>
+                    <settings.prop1string>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop1</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.prop1string>
+                    <settings.prop2string>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop2</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.prop2string>
+                    <settings.prop3string>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop3</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.prop3string>
+                    <settings.prop1descr>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop1desc</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.prop1descr>
+                    <settings.prop2descr>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop2desc</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.prop2descr>
+                    <settings.prop3descr>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop3desc</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.prop3descr>
+                    <settings.descpription>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.description</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.descpription>
+                    <settings.submitLabel>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.submitLabel</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.submitLabel>
+                </el>
+            </ROOT>
+        </sDEF>
+
+        <sDEF2>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Confirmation email customization</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <!-- List -->
+
+                    <settings.headingText>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.headingText</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.headingText>
+                    <settings.bodyText>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.bodyText</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.bodyText>
+                    <settings.confButton>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.confButton</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.confButton>
+                    <settings.emailFooterMail>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.emailFooterMail
+                            </label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.emailFooterMail>
+                    <settings.thanks>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.thanks</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.thanks>
+                    <settings.owner>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.owner</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.owner>
+
+                </el>
+            </ROOT>
+        </sDEF2>
+
+
+        <sDEF3>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Messages and errors</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+
+                    <settings.emailSender>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.emailSender</label>
+                            <config>
+                                <type>input</type>
+                                <eval>email</eval>
+                                <minitems>1</minitems>
+                            </config>
+                        </TCEforms>
+                    </settings.emailSender>
+
+                    <settings.confMessage>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.confMessage</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.confMessage>
+                    <settings.dataTypeMessage>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.dataTypeMessage
+                            </label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.dataTypeMessage>
+                    <settings.subscribeError>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.subscribeError
+                            </label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.subscribeError>
+                    <settings.memberExist>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.memberExist</label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.memberExist>
+
+                    <settings.finalMessage>
+                        <TCEforms>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.finalMessage
+                            </label>
+                            <config>
+                                <type>input</type>
+                            </config>
+                        </TCEforms>
+                    </settings.finalMessage>
+
+                </el>
+            </ROOT>
+        </sDEF3>
+
+    </sheets>
+</T3DataStructure>

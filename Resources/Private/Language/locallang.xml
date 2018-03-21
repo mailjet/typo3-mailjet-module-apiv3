@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <type>module</type>
+        <description>Language labels for Mailjet</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <!-- Backend -->
+            <label index="plugin.title">Mailjet</label>
+            <label index="flexform.subformconf">Subscription form configuration</label>
+            <label index="flexform.confirmationemals">Confirmation email customization</label>
+            <label index="flexform.messageserrors">Messages and errors</label>
+            <label index="plugin.description">Create and edit a form to let users subscribe to a specific Mailjet
+                list.
+            </label>
+            <label index="flexform.title">Title</label>
+            <label index="flexform.list">Mailjet contact list - Select a contact list where all new subscribers will be
+                added. You can create additional contact lists in your Mailjet account.
+            </label>
+            <label index="flexform.prop">Contact properties - Select up to 3 contact properties to be shown in your
+                subscription form.
+            </label>
+            <label index="flexform.prop1">Label for the first contact property in the form</label>
+            <label index="flexform.prop2">Label for the second contact property in the form</label>
+            <label index="flexform.prop3">Label for the third contact property in the form</label>
+            <label index="flexform.prop1desc">Description for the first contact property in the form</label>
+            <label index="flexform.prop2desc">Description for the second contact property in the form</label>
+            <label index="flexform.prop3desc">Description for the third contact property in the form</label>
+            <label index="flexform.placeholder">example@domain.com</label>
+            <label index="flexform.description">Form description</label>
+            <label index="flexform.submitLabel">Submit Button label</label>
+            <label index="flexform.headingText">Email Heading text</label>
+            <label index="flexform.bodyText">Email Body text</label>
+            <label index="flexform.confButton">Email Confirmation Button text - This is the text of the button inside the
+                subscription confirmation email.
+            </label>
+            <label index="flexform.emailFooterMail">Email Footer text</label>
+            <label index="flexform.thanks">Thanks,</label>
+            <label index="flexform.owner">Owner - Site owner name, shown at the end of the subscription confirmation
+                email.
+            </label>
+            <label index="flexform.confMessage">Confirmation Message - Default: Subscription confirmation email sent to
+                %email. Please check your inbox and confirm the subscription. (Note: The '%email' symbol will be
+                replaced by the email address of the subscriber)
+            </label>
+            <label index="flexform.dataTypeMessage">Data type mismatch - Default: Please enter the correct values according to
+                the example of the description in the field: %id. (Note: The %id symbol will be replaced by the name of
+                field and the %type symbol will be replaced by the type of data required by the field)
+            </label>
+            <label index="flexform.subscribeError">Subscribe error. Please try again later! - This message will appear
+                in case an error occurs during subscription form submission.
+            </label>
+            <label index="flexform.memberExist">The contact %email is already subscribed - This message will appear when
+                the subscriber already exists in your Mailjet contact list. (Note: The %email symbol will be replaced by the email
+                address of the subscriber)
+            </label>
+            <label index="flexform.finalMessage">Thanks for subscribing - This message will appear when
+                the subscriber is successfully added to the contact list.
+            </label>
+            <label index="flexform.email">Email field label</label>
+            <label index="flexform.emailSender">* Email FROM address - this is a required field! This is the email address used to send 
+                the confirmation email to the subscriber! Use one of your validated sender email addresses from your Mailjet account. 
+                If the field is empty the subscriber will not receive the confirmation email and will not be able to subscribe!
+            </label>
+            <!-- Frontend -->
+            <label index="field.email">Email</label>
+            <label index="field.firstName">First name</label>
+            <label index="field.lastName">Last name</label>
+            <label index="field.email">Email</label>
+            <label index="field.interests">Interests</label>
+            <label index="error.memberExists">This email address is already subscribed!</label>
+            <label index="error.general">A general error occurred, sorry!</label>
+            <label index="error.form.email.1221560718">Please provide an email address!</label>
+            <label index="error.form.email.1221559976">The provided email address is invalid!</label>
+            <label index="success.title">You have successfully registered!</label>
+            <label index="success.description">Please check your inbox to confirm your subscription!</label>
+            <label index="form.submit">Submit</label>
+            <label index="memberCount">Count of members</label>
+        </languageKey>
+    </data>
+</T3locallang>

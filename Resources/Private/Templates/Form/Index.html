@@ -1,0 +1,132 @@
+{namespace mc=Api\Mailjet\ViewHelpers}
+
+<f:layout name="General"/>
+
+<f:section name="content">
+    <f:form object="{form}" action="response" name="form" id="mailjet-form" class="form-horizontal"
+            data="{url:'{f:render(section:\'formUrl\') -> f:spaceless() -> f:format.htmlentitiesDecode()}'}">
+
+
+        <f:if condition="{description}">
+            <p>{description}</p>
+        </f:if>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{email}</label>
+            <div class="col-sm-9">
+                <f:form.textfield property="email" type="email" class="form-control" required="1"/>
+            </div>
+        </div>
+
+        <f:if condition="{contact_prop1}">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{prop1}</label>
+                <div class="col-sm-9">
+                    <f:form.textfield property="prop1" type="text" class="form-control" required="1"/>
+                    <label style="margin-bottom:15px;" class="col-sm-3 control-label">{prop1descpr}</label>
+                </div>
+            </div>
+        </f:if>
+
+        <f:if condition="{contact_prop2}">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{prop2}</label>
+                <div class="col-sm-9">
+                    <f:form.textfield property="prop2" type="text" class="form-control" required="1"/>
+                    <label  style="margin-bottom:15px;" class="col-sm-3 control-label">{prop2descpr}</label>
+                </div>
+            </div>
+        </f:if>
+
+        <f:if condition="{contact_prop3}">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{prop3}</label>
+                <div class="col-sm-9">
+                    <f:form.textfield property="prop3" type="text" class="form-control" required="1"/>
+                    <label  style="margin-bottom:15px;" class="col-sm-3 control-label">{prop3descpr}</label>
+                </div>
+            </div>
+        </f:if>
+
+
+        <f:if condition="{headingText}">
+            <f:form.textfield property="headingText" value="{headingText}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{bodyText}">
+            <f:form.textfield property="bodyText" value="{bodyText}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{confButton}">
+            <f:form.textfield property="confButton" value="{confButton}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{emailFooterMail}">
+            <f:form.textfield property="emailFooterMail" value="{emailFooterMail}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{thanks}">
+            <f:form.textfield property="thanks" value="{thanks}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{owner}">
+            <f:form.textfield property="owner" value="{owner}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{confMessage}">
+            <f:form.textfield property="confMessage" value="{confMessage}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{dataTypeMessage}">
+            <f:form.textfield property="dataTypeMessage" value="{dataTypeMessage}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{subscribeError}">
+            <f:form.textfield property="subscribeError" value="{subscribeError}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{memberExist}">
+            <f:form.textfield property="memberExist" value="{memberExist}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{finalMessage}">
+            <f:form.textfield property="finalMessage" value="{finalMessage}" type="hidden" class="form-control"/>
+        </f:if>
+
+
+        <f:if condition="{listId}">
+            <f:form.textfield property="listId" value="{listId}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{emailSender}">
+            <f:form.textfield property="emailSender" value="{emailSender}" type="hidden" class="form-control"/>
+        </f:if>
+
+        <f:if condition="{properties}">
+            <f:form.textfield property="properties" value="{properties}" type="hidden" class="form-control"/>
+        </f:if>
+
+
+        <f:if condition="{submitLabel}">
+            <f:then>
+                <div class="form-group">
+                    <f:form.submit value="{submitLabel}" class="btn btn-default"/>
+                </div>
+            </f:then>
+            <f:else>
+                <div class="form-group">
+                    <f:form.submit value="{f:translate(key:'form.submit')}" class="btn btn-default"/>
+                </div>
+            </f:else>
+        </f:if>
+
+        <mc:footerData>
+
+        </mc:footerData>
+
+    </f:form>
+</f:section>
+
+<f:section name="formUrl">
+
+</f:section>

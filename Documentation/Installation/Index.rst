@@ -25,12 +25,11 @@ The PHPMailer v.5.2.22 is included by default in the Mailjet plugin! Please upda
 To install PHPMailer via composer use: NOT SUPPORTED YET! 
 
 To update version of PHPMailer manually:
-1) Delete the old folder "phpmailer" located inside mailjet_extension_path/Resources/Private/Libraries.
-2) Get the PHPMailer from GitHub here: https://github.com/PHPMailer/PHPMailer/releases
-3) Extract the archive and rename the folder "PHPMailer-5.2.xx" to "phpmailer".
-4) Upload the "phpmailer" folder to your server inside mailjet_extension_path/Resources/Private/Libraries
-Example: typo3conf/ext/mailjet/Resources/Private/Libraries
-5) Check if the 'phpmailer' is properly installed by sending a test email from the Mailjet admin page. Make sure tou have enabled sending via Mailjet by marking "Send emails through Mailjet" in the Mailjet admin page and optionally "Allow HTML" to send emails in HTML format.
+  1) Delete the old folder "phpmailer" located inside mailjet_extension_path/Resources/Private/Libraries.
+  2) Get the PHPMailer from GitHub here: https://github.com/PHPMailer/PHPMailer/releases
+  3) Extract the archive and rename the folder "PHPMailer-5.2.xx" to "phpmailer".
+  4) Upload the "phpmailer" folder to your server inside mailjet_extension_path/Resources/Private/Libraries. Example: typo3conf/ext/mailjet/Resources/Private/Libraries
+  5) Check if the 'phpmailer' is properly installed by sending a test email from the Mailjet admin page. Make sure tou have enabled sending via Mailjet by marking "Send emails through Mailjet" in the Mailjet admin page and optionally "Allow HTML" to send emails in HTML format.
 
 
 Installation

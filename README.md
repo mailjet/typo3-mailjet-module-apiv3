@@ -1,6 +1,6 @@
-# TYPO3 CMS Extension `mailjet`
+# Mailjet API extension for Typo3
 
-## Requirements - for current moment and dev version
+## Requirements
 
 - TYPO3 CMS 7.6 - 8.9
 - PHP 5.4 - 7.2

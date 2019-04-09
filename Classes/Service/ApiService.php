@@ -218,7 +218,11 @@ class ApiService {
     $mailjet = $this->api_mailjet;
     $contact_lists2 = [];
     $counter_contact = 0;
-    $contact_lists = $mailjet->contactslist()->getResponse();
+    $params = [
+      'method' => 'GET',
+      'limit' => 50,
+    ];
+    $contact_lists = $mailjet->contactslist($params)->getResponse();
     if (!empty($contact_lists) && is_array($contact_lists->Data)) {
       foreach ($contact_lists->Data as $list) {
         $contact_lists2[$list->ID] = $list->Name;

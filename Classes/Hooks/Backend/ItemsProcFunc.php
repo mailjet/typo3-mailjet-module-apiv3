@@ -29,7 +29,11 @@ class ItemsProcFunc {
     try {
 
       $mailjet = $this->api_mailjet;
-      $contact_lists = $mailjet->contactslist()->getResponse();
+      $params = [
+        'method' => 'GET',
+        'limit' => 50,
+      ];
+      $contact_lists = $mailjet->contactslist($params)->getResponse();
  
       if ($contact_lists == NULL) {
         echo "<div style='color:red;font-size:33px;font-family:Verdana,Arial,Helvetica,sans-serif;'>Please enter correct API KEYS!</div>";
@@ -38,8 +42,6 @@ class ItemsProcFunc {
 
       $lists = [];
       $counter_contact = 0;
-      $contact_lists = [];
-      $contact_lists = $mailjet->contactslist()->getResponse();
       if (!empty($contact_lists) && is_array($contact_lists->Data)) {
         foreach ($contact_lists->Data as $list) {
           $lists[$list->ID] = $list->Name;

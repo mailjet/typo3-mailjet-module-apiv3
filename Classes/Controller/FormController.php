@@ -280,14 +280,6 @@ class FormController extends ActionController {
           'ListID' => $list_id,
         ];
         $mailjet->resetRequest();
-        $response = $mailjet->manycontacts($add_params)->getResponse();
-        if ($response && isset($response->Count) && $response->Count > 0) {
-          $contact_id = $response->Data[0]->Recipients->Items[0]->Contact->ID;
-        }
-        else {
-          $error_message = 'Error';
-          return FALSE;
-        }
         $sendMailData = TRUE;
         if ($double_opt_in == 1) {
           $unsub_params = [

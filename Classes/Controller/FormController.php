@@ -25,16 +25,12 @@ class FormController extends ActionController {
    * @dontvalidate $form
    */
   public function indexAction(FormDto $form = NULL) {
-    if (isset($_GET) && !empty($_GET['list']) && !empty($_GET['fj'])) {
+    if (!empty($_GET['list']) && !empty($_GET['fj'])) {
       require_once(ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Contrib/Mailjet/Mailjet.php'));
       $settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
       $mailjet = new Mailjet($settings_keys['apiKeyMailjet'], $settings_keys['secretKey']);
-      if (isset($_GET['list']) && !empty($_GET['list'])) {
-        $list_id = $_GET['list'];
-      }
-      if (isset($_GET['fj']) && !empty($_GET['fj'])) {
-        $sec_code_email = base64_decode($_GET['fj']);
-      }
+      $list_id = $_GET['list'];
+      $sec_code_email = base64_decode($_GET['fj']);
       $add_params = [
         'method' => 'POST',
         'Action' => 'Add',
@@ -46,18 +42,11 @@ class FormController extends ActionController {
       $response = $mailjet->manycontacts($add_params)->getResponse();
       if ($response && isset($response->Count) && $response->Count > 0) {
         print $this->settings['finalMessage'];
-      }
-      else {
+      } else {
         print $this->settings['subscribeError'];
       }
     }
-    if ($this->settings['properties']) {
-      $properties = $this->settings['properties'];
-    }
-    else {
-      $properties = [];
-    }
-    $arr_properties = explode(",", $properties);
+
     if (is_null($form)) {
       /** @var FormDto $form */
       $form = GeneralUtility::makeInstance('Api\\Mailjet\\Domain\\Model\\Dto\\FormDto');
@@ -66,6 +55,18 @@ class FormController extends ActionController {
         $form->setEmail($prefill);
       }
     }
+
+    $properties = $this->settings['properties'] ? $this->settings['properties'] : '';
+    if(is_string($properties)) {
+      $arr_properties = explode(",", $properties);
+    }else{
+      $arr_properties = [
+        $form->getProp1(),
+        $form->getProp2(),
+        $form->getProp3()
+      ];
+    }
+
     $this->view->assignMultiple([
       'form' => $form,
       'email' => $this->settings['email'],
@@ -117,27 +118,13 @@ class FormController extends ActionController {
     require_once(ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Contrib/Mailjet/Mailjet.php'));
     $settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
     $error_message = 'Incorrect data values. Please enter the correct values according to the example of the description in the field : <%id>';
-//    $contact_properties = [];
-//    $props = explode(",", $form->getProperties());
-//    $message = '';
 
     $contact_properties = [
         ['value' => $form->getProp1()],
         ['value' => $form->getProp2()],
         ['value' => $form->getProp3()]
     ];
-//    
-//    $arr_prop[0] = $form->getProp1();
-//    $arr_prop[1] = $form->getProp2();
-//    $arr_prop[2] = $form->getProp3();
-//    for ($i = 0; $i < count($props); $i++) {
-//      $contact_properties[$props[$i]] = '';
-//    }
-//    $counter = 0;
-//    foreach ($contact_properties as $key => $value) {
-//      $contact_properties[$key]['value'] = $arr_prop[$counter];
-//      $counter++;
-//    }
+
     $errorMess = FALSE;
     $mailjet = new Mailjet($settings_keys['apiKeyMailjet'], $settings_keys['secretKey']);
     if (!(empty($contact_properties))) {

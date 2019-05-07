@@ -117,20 +117,27 @@ class FormController extends ActionController {
     require_once(ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Contrib/Mailjet/Mailjet.php'));
     $settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
     $error_message = 'Incorrect data values. Please enter the correct values according to the example of the description in the field : <%id>';
-    $contact_properties = [];
-    $props = explode(",", $form->getProperties());
-    $message = '';
-    $arr_prop[0] = $form->getProp1();
-    $arr_prop[1] = $form->getProp2();
-    $arr_prop[2] = $form->getProp3();
-    for ($i = 0; $i < count($props); $i++) {
-      $contact_properties[$props[$i]] = '';
-    }
-    $counter = 0;
-    foreach ($contact_properties as $key => $value) {
-      $contact_properties[$key]['value'] = $arr_prop[$counter];
-      $counter++;
-    }
+//    $contact_properties = [];
+//    $props = explode(",", $form->getProperties());
+//    $message = '';
+
+    $contact_properties = [
+        ['value' => $form->getProp1()],
+        ['value' => $form->getProp2()],
+        ['value' => $form->getProp3()]
+    ];
+//    
+//    $arr_prop[0] = $form->getProp1();
+//    $arr_prop[1] = $form->getProp2();
+//    $arr_prop[2] = $form->getProp3();
+//    for ($i = 0; $i < count($props); $i++) {
+//      $contact_properties[$props[$i]] = '';
+//    }
+//    $counter = 0;
+//    foreach ($contact_properties as $key => $value) {
+//      $contact_properties[$key]['value'] = $arr_prop[$counter];
+//      $counter++;
+//    }
     $errorMess = FALSE;
     $mailjet = new Mailjet($settings_keys['apiKeyMailjet'], $settings_keys['secretKey']);
     if (!(empty($contact_properties))) {
@@ -218,16 +225,22 @@ class FormController extends ActionController {
       $settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
       $error_message = 'Fatal error! Try again later.';
       $sucess = 'Subscription confirmation email sent to %email! Please check your inbox and confirm the subscription.';
-      $contact_properties = [];
+//      $contact_properties = [];
       $props = explode(",", $form->getProperties());
       $message = '';
       $email = $form->getEmail();
-      $arr_prop[0] = $form->getProp1();
-      $arr_prop[1] = $form->getProp2();
-      $arr_prop[2] = $form->getProp3();
-      for ($i = 0; $i < count($props); $i++) {
-        $contact_properties[$props[$i]] = '';
-      }
+
+      $contact_properties = [
+        ['value' => $form->getProp1()],
+        ['value' => $form->getProp2()],
+        ['value' => $form->getProp3()]
+    ];
+//      $arr_prop[0] = $form->getProp1();
+//      $arr_prop[1] = $form->getProp2();
+//      $arr_prop[2] = $form->getProp3();
+//      for ($i = 0; $i < count($props); $i++) {
+//        $contact_properties[$props[$i]] = '';
+//      }
       $email_heading_text = !empty($form->getHeadingText()) ? $form->getHeadingText() : 'Please Confirm Your Subscription To';
       $member_exist_text = !empty($form->getMemberExist()) ? $form->getMemberExist() : 'Subscriber exists in Mailjet database! Try different email address for subscribe.';
       $member_exist_text = str_replace('%email', $email, $member_exist_text);

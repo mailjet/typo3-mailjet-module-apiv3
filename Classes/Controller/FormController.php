@@ -68,16 +68,15 @@ class FormController extends ActionController {
                 $form->setEmail($prefill);
             }
         }
+        $arr_properties = [
+            $form->getProp1(),
+            $form->getProp2(),
+            $form->getProp3()
+        ];
 
         $properties = $this->settings['properties'] ? $this->settings['properties'] : '';
         if (is_string($properties)) {
             $arr_properties = explode(",", $properties);
-        } else {
-            $arr_properties = [
-                $form->getProp1(),
-                $form->getProp2(),
-                $form->getProp3()
-            ];
         }
 
         $this->view->assignMultiple([

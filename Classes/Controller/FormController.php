@@ -234,7 +234,7 @@ class FormController extends ActionController {
                 $contact_properties[$prop] = $contact_properties_raw[$prop_key];
             }
             $email_heading_text = !empty($form->getHeadingText()) ? $form->getHeadingText() : 'Please Confirm Your Subscription To';
-            $member_exist_text = !empty($form->getMemberExist()) ? $form->getMemberExist() : 'Subscriber exists in Mailjet database! Try different email address for subscribe.';
+            $member_exist_text = !empty($form->getMemberExist()) ? $form->getMemberExist() : 'The contact is already subscribed! Try subscribing with a different email address.';
             $member_exist_text = str_replace('%email', $email, $member_exist_text);
             $final_message = !empty($form->getFinalMessage()) ? $form->getFinalMessage() : "Success!";
             $email_sender = $form->getEmailSender();
@@ -244,7 +244,7 @@ class FormController extends ActionController {
             $error_input_data_types = $form->getDataTypeMessage();
             $sub_error = !empty($form->getSubscribeError()) ? $form->getSubscribeError() : $error_message;
             $email_text_thank_you = !empty($form->getThanks()) ? $form->getThanks() : 'Thanks,';
-            $email_footer_text = !empty($form->getEmailFooterMail()) ? $form->getEmailFooterMail() : 'Did not ask to subscribe to this list? Or maybe you have changed your mind? Then simply ignore this email and you will not be subscribed';
+            $email_footer_text = !empty($form->getEmailFooterMail()) ? $form->getEmailFooterMail() : 'Did not ask to subscribe to this list? Or maybe you have changed your mind? Then simply ignore this email and you will not be subscribed.';
             $email_text_button = !empty($form->getConfButton()) ? $form->getConfButton() : 'Click here to confirm';
             $list_id = $form->getListId();
             $email_text_description = !empty($form->getBodyText()) ? $form->getBodyText() : 'You may copy/paste this link into your browser:';
@@ -310,7 +310,7 @@ class FormController extends ActionController {
                         $mail->Port = $smtpPort;
                         $mail->setFrom($settings_keys['sender']);
                         $mail->addAddress($email);
-                        $mail->Subject = "Activation mail - Mailjet";
+                        $mail->Subject = "Please confirm your subscription";
                         if (!empty($settings_keys['allowHtml']) && $settings_keys['allowHtml'] == 1) {
                             $mail->IsHTML(TRUE);
                         }
@@ -326,7 +326,7 @@ class FormController extends ActionController {
                     // Create the message
                     $mail = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
                     // Prepare and send the message
-                    $mail->setSubject('Mailjet Activation Mail')
+                    $mail->setSubject('Please confirm your subscription')
                         ->setFrom($email_sender)
                         ->setTo($email)
                         ->setBody($templateRendition)

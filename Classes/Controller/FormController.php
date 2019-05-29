@@ -308,7 +308,7 @@ class FormController extends ActionController {
                         $mail->Password = $settings_keys['secretKey'];
                         $mail->SMTPSecure = $smtpSecure;
                         $mail->Port = $smtpPort;
-                        $mail->setFrom($email_sender);
+                        $mail->setFrom($settings_keys['sender']);
                         $mail->addAddress($email);
                         $mail->Subject = "Activation mail - Mailjet";
                         if (!empty($settings_keys['allowHtml']) && $settings_keys['allowHtml'] == 1) {

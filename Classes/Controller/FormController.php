@@ -30,30 +30,29 @@ class FormController extends ActionController {
      * @dontvalidate $form
      */
     public function indexAction(FormDto $form = NULL) {
-        if (!empty($_GET['list']) && !empty($_GET['fj'])) {
+        if (!empty($_GET['list']) && !empty($_GET['mj'])) {
             require_once(ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Contrib/Mailjet/Mailjet.php'));
             $settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
             $mailjet = new Mailjet($settings_keys['apiKeyMailjet'], $settings_keys['secretKey']);
             $list_id = $_GET['list'];
-            $sec_code_email = base64_decode($_GET['fj']);
+            $contact_data = json_decode(base64_decode($_GET['mj']));
+
             $contact_params = [
                 'method' => 'GET',
-                'ContactEmail' => $sec_code_email,
+                'ContactEmail' => $contact_data->Email,
                 'ContactsList' => $list_id,
             ];
-            $result = $mailjet->listrecipient($contact_params)->getResponse();
+            $result = $mailjet->contactdata($contact_params)->getResponse();
             if (!isset($result->Count) || $result->Count === 0 || $result->Data[0]->IsUnsubscribed === true) {
                 $add_params = [
-                    'method' => 'POST',
-                    'Action' => 'Add',
-                    'Force' => TRUE,
-                    'Addresses' => [$sec_code_email],
-                    'ListID' => $list_id,
+                    'Properties' => $contact_data->Properties,
+                    'Action' => 'addforce',
+                    'Email' => $contact_data->Email
                 ];
                 $mailjet->resetRequest();
-                $response = $mailjet->manycontacts($add_params)->getResponse();
+                $response = $mailjet->manageContact($list_id, $add_params);
                 $response_message = $this->settings['subscribeError'];
-                if (isset($response->Total) && $response->Total > 0) {
+                if ($response && $response->Total > 0) {
                     $response_message = $this->settings['finalMessage'];
                 }
             }
@@ -216,8 +215,6 @@ class FormController extends ActionController {
         try {
             /** @var FormDto $data */
             require_once(ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Contrib/Mailjet/Mailjet.php'));
-
-
             $settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
             $error_message = 'Fatal error! Try again later.';
             $success = 'Subscription confirmation email sent to %email! Please check your inbox and confirm the subscription.';
@@ -225,9 +222,9 @@ class FormController extends ActionController {
             $email = $form->getEmail();
             $prop_names = explode(',', $form->getProperties());
             $contact_properties_raw = [
-                ['value' => $form->getProp1()],
-                ['value' => $form->getProp2()],
-                ['value' => $form->getProp3()]
+                $form->getProp1(),
+                $form->getProp2(),
+                $form->getProp3()
             ];
             $contact_properties = [];
             foreach ($prop_names as $prop_key => $prop){
@@ -253,7 +250,7 @@ class FormController extends ActionController {
             $prefix = (isset($_SERVER['HTTPS']) ? "https" : "http");
             $link = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
             $link = $prefix . "://" . substr($link, 0, strpos($link, "&"));
-            $link .= '&fj=' . base64_encode($email) . '&list=' . $list_id;
+            $link .= '&mj=' . base64_encode(json_encode(['Properties' => $contact_properties, 'Email' => $email])) . '&list=' . $list_id;
             $url = $prefix . "://" . $_SERVER['HTTP_HOST'];
             $data = [];
             $response_exist_user = TRUE;
@@ -262,12 +259,12 @@ class FormController extends ActionController {
                 'ContactEmail' => $email,
                 'ContactsList' => $list_id,
             ];
-            $result = $mailjet->listrecipient($contact_params);
+            $result = $mailjet->listrecipient($contact_params)->getResponse();
             // 1 - unsubscribed, !=1 - subscribed
-            if ($result->getResponse()->Count < 1) {
+            if ($result->Count < 1) {
                 $response_exist_user = FALSE;
             }
-            if (!empty($result->getResponse()->Data) && $result->getResponse()->Data[0]->IsUnsubscribed == 1) {
+            if (!empty($result->Data) && $result->Data[0]->IsUnsubscribed == 1) {
                 $response_exist_user = FALSE;
             }
             if ($response_exist_user == FALSE) {

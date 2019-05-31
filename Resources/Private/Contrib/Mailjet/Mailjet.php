@@ -252,7 +252,7 @@ class MailJet {
     curl_setopt($this->_curl_handle, CURLOPT_HTTPHEADER, ["Content-Type: " . $contType]);
     curl_setopt($this->_curl_handle, CURLOPT_SSL_VERIFYPEER, FALSE);
     curl_setopt($this->_curl_handle, CURLOPT_SSL_VERIFYHOST, 2);
-    curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'typo-3-1.0.2');
+    curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'typo-3-1.0.3');
 
     curl_setopt($this->_curl_handle, CURLOPT_USERPWD, $this->_apiKey . ':' . $this->_secretKey);
 
@@ -710,7 +710,7 @@ class MailJet {
     curl_setopt($this->_curl_handle, CURLOPT_TIMEOUT, 10); //timeout in seconds
     curl_setopt($this->_curl_handle, CURLOPT_USERPWD, $this->_apiKey . ':' . $this->_secretKey);
 
-    curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'typo-3-1.0.2');
+    curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'typo-3-1.0.3');
 
 
     switch ($request) {

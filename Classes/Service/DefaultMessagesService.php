@@ -24,7 +24,7 @@ class DefaultMessagesService
 
     private $headingText = 'Please Confirm Your Subscription To';
 
-    private $emailFooterMsg = 'Did not ask to subscribe to this list? Or maybe you have changed your mind? Then simply ignore this email and you will not be subscribed';
+    private $emailFooterMsg = 'Did not ask to subscribe to this list? Or maybe you have changed your mind? Then simply ignore this email and you will not be subscribed.';
 
     private $confirmationBtnText = 'Click here to confirm';
 

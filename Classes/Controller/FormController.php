@@ -78,7 +78,7 @@ class FormController extends ActionController {
             'has_error' => false,
             'error_msg' => []
         ];
-        $error_message = 'Incorrect data values. Please enter the correct values according to the example of the description in the field : <%id>';
+
         $prop_names = explode(',', $form->getProperties());
         $contact_properties_raw = [
             $form->getProp1(),
@@ -94,7 +94,7 @@ class FormController extends ActionController {
 
         if (!(empty($contact_properties))) {
             foreach ($contact_properties as $key => $field) {
-                $error_input_data_types = !empty($form->getDataTypeMessage()) ? $form->getDataTypeMessage() : $error_message;
+                $error_input_data_types = DefaultMessagesService::getDataTypeMsg($form->getDataTypeMessage());
                 $error_input_data_types = '<div class="error error-fields">' . $error_input_data_types . '</div>';
                 $type = '';
 
@@ -274,7 +274,7 @@ class FormController extends ActionController {
 
     private function confirmSubscription($list_id, $customer_data)
     {
-        $response_message = $this->settings['subscribeError'];
+        $response_message = empty($this->settings['subscribeError']) ? 'Subscribe error. Please try again later!' : $this->settings['subscribeError'];
         $mailjet = $this->getMailjet();
         $contact_params = [
             'method' => 'GET',
@@ -292,7 +292,7 @@ class FormController extends ActionController {
             $mailjet->resetRequest();
             $response = $mailjet->manageContact($list_id, $add_params);
             if ($response && $response->Total > 0) {
-                $response_message = $this->settings['finalMessage'];
+                $response_message = DefaultMessagesService::getSuccessMessage($this->settings['finalMessage']);
             }
         }
 

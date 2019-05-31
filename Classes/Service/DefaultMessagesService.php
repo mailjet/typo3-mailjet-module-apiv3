@@ -12,15 +12,11 @@ class DefaultMessagesService
 
     private $confMessage = 'Subscription confirmation email sent to %email. Please check your inbox and confirm the subscription.';
 
-    private $dataTypeMessage = 'Please enter the correct values according to the example of the description in the field: %id.';
-
     private $subscribeError = 'Subscribe error. Please try again later!';
 
     private $memberExist = 'The contact %email is already subscribed!';
 
     private $thanksMessage = 'Thanks for subscribing!';
-
-    private $successMessage = 'You have successfully subscribed!';
 
     private $headingText = 'Please Confirm Your Subscription To';
 
@@ -31,6 +27,10 @@ class DefaultMessagesService
     private $bodyMessage = 'You may copy/paste this link into your browser:';
 
     private $owner = 'Mailjet';
+
+    private static $successMessage = 'You have successfully subscribed!';
+
+    private static $dataTypeMessage = 'Please enter the correct values according to the example of the description in the field: %id.';
 
     public function __construct(FormDto $formDto)
     {
@@ -124,5 +124,23 @@ class DefaultMessagesService
         }
 
         return $this->owner;
+    }
+
+    public static function getSuccessMessage($message)
+    {
+        if (!empty($message)){
+            return $message;
+        }
+
+        return self::$successMessage;
+    }
+
+    public static function getDataTypeMsg($message)
+    {
+        if (!empty($message)){
+            return $message;
+        }
+
+        return self::$dataTypeMessage;
     }
 }

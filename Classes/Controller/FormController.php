@@ -38,15 +38,15 @@ class FormController extends ActionController {
      * @dontvalidate $form
      */
     public function indexAction(FormDto $form = NULL) {
+        $message = null;
         if (!empty($_GET['list']) && !empty($_GET['mj'])) {
             $list_id = $_GET['list'];
             $contact_data = json_decode(base64_decode($_GET['mj']));
             if ($contact_data){
                 $message = $this->confirmSubscription($list_id, $contact_data);
-                print $message;
             }
         }
-        $this->renderSubscriptionForm($form);
+        $this->renderSubscriptionForm($form, $message);
     }
 
     /**
@@ -59,10 +59,8 @@ class FormController extends ActionController {
         $validation = $this->validDataReg($form);
 
         if ($validation['has_error']){
-            foreach ($validation['error_msg'] as $msg){
-                print $msg;
-            }
-            $this->errorAction();
+            $this->renderSubscriptionForm($form, $validation['error_msg']);
+//            $this->errorAction();
             return false;
         }
 
@@ -282,8 +280,13 @@ class FormController extends ActionController {
             'ContactsList' => $list_id,
         ];
         $result = $mailjet->contactdata($contact_params)->getResponse();
+        if (!isset($result->Count)){
+            return $response_message;
+        }
 
-        if (!isset($result->Count) || $result->Count === 0 || $result->Data[0]->IsUnsubscribed === true) {
+        $response_message = DefaultMessagesService::getSubscribedMessage($customer_data->Email);
+
+        if ( $result->Count === 0 || $result->Data[0]->IsUnsubscribed === true) {
             $add_params = [
                 'Properties' => $customer_data->Properties,
                 'Action' => 'addforce',
@@ -299,7 +302,7 @@ class FormController extends ActionController {
         return $response_message;
     }
 
-    private function renderSubscriptionForm($form)
+    private function renderSubscriptionForm($form, $message = null)
     {
         if (is_null($form)) {
             /** @var FormDto $form */
@@ -349,6 +352,8 @@ class FormController extends ActionController {
             'listId' => $this->settings['listId'],
             'properties' => $this->settings['properties'],
             'emailSender' => $this->settings['emailSender'],
+            'generalError' => is_array($message) ? $message : null,
+            'subscribtionMessage' => (!is_array($message) && !is_null($message)) ? $message : null
         ]);
     }
 }

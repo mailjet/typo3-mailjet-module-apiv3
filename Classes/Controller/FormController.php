@@ -15,6 +15,8 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use DrewM\Mailjet\MailJet;
 use TYPO3Fluid\Fluid\View\TemplateView;
+use Api\Mailjet\Service\DefaultMessagesService;
+
 
 
 
@@ -164,41 +166,38 @@ class FormController extends ActionController {
 
     /**
      * @param FormDto|null $form
+     * @param array $validated_properties
      */
-    protected function handleRegistration(FormDto $form = NULL, $validated_properties) {
+    protected function handleRegistration(FormDto $form = NULL, array $validated_properties) {
+        $message = 'Unexpected Error!';
         try {
-            /** @var FormDto $data */
-
-            $error_message = 'Fatal error! Try again later.';
-            $success = 'Subscription confirmation email sent to %email! Please check your inbox and confirm the subscription.';
-            $message = '';
-            $email = $form->getEmail();
-            $emailParams['email_heading_text'] = !empty($form->getHeadingText()) ? $form->getHeadingText() : 'Please Confirm Your Subscription To';
-            $member_exist_text = !empty($form->getMemberExist()) ? $form->getMemberExist() : 'Subscriber exists in Mailjet database! Try different email address for subscribe.';
-            $member_exist_text = str_replace('%email', $email, $member_exist_text);
-            $email_sender = $form->getEmailSender();
-            $emailParams['owner'] = !empty($form->getOwner()) ? $form->getOwner() : 'Mailjet';
-            $conf_message = !empty($form->getConfMessage()) ? $form->getConfMessage() : $success;
-            $conf_message = str_replace('%email', $email, $conf_message);
-
-            $sub_error = !empty($form->getSubscribeError()) ? $form->getSubscribeError() : $error_message;
-            $emailParams['email_text_thank_you'] = !empty($form->getThanks()) ? $form->getThanks() : 'Thanks,';
-            $emailParams['email_footer_text'] = !empty($form->getEmailFooterMail()) ? $form->getEmailFooterMail() : 'Did not ask to subscribe to this list? Or maybe you have changed your mind? Then simply ignore this email and you will not be subscribed';
-            $emailParams['email_text_button'] = !empty($form->getConfButton()) ? $form->getConfButton() : 'Click here to confirm';
-            $list_id = $form->getListId();
-            $emailParams['email_text_description'] = !empty($form->getBodyText()) ? $form->getBodyText() : 'You may copy/paste this link into your browser:';
-
             $mailjet = $this->getMailjet();
+            $messageHelper = new DefaultMessagesService($form);
+
+            $conf_message = $messageHelper->getConfirmMessage();
+            $member_exist_text = $messageHelper->getMemberExist();
+            $list_id = $form->getListId();
+            $email_sender = $form->getEmailSender();
+            $sub_error = $messageHelper->getSubscribeError();
+
+
+            $emailParams['owner'] = $messageHelper->getOwner();
+            $emailParams['email_heading_text'] = $messageHelper->getHeadingText();
+            $emailParams['email_text_thank_you'] = $messageHelper->getThanksMessage();
+            $emailParams['email_footer_text'] = $messageHelper->getEmailFooterMessage();
+            $emailParams['email_text_button'] = $messageHelper->getConfButtonText();
+            $emailParams['email_text_description'] = $messageHelper->getBodyMessage();
+
             $prefix = (isset($_SERVER['HTTPS']) ? "https" : "http");
             $link = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
             $emailParams['link'] = $prefix . "://" . substr($link, 0, strpos($link, "&"));
-            $emailParams['link'] .= '&mj=' . base64_encode(json_encode(['Properties' => $validated_properties, 'Email' => $email])) . '&list=' . $list_id;
+            $emailParams['link'] .= '&mj=' . base64_encode(json_encode(['Properties' => $validated_properties, 'Email' => $form->getEmail()])) . '&list=' . $list_id;
             $emailParams['url'] = $prefix . "://" . $_SERVER['HTTP_HOST'];
 
             $response_exist_user = TRUE;
             $contact_params = [
                 'method' => 'GET',
-                'ContactEmail' => $email,
+                'ContactEmail' => $form->getEmail(),
                 'ContactsList' => $list_id,
             ];
             $result = $mailjet->listrecipient($contact_params)->getResponse();
@@ -213,18 +212,10 @@ class FormController extends ActionController {
                 $templateHelper = new TemplatesViewHelper();
                 $templateRendition = $templateHelper->getSubscriptionEmailTemplate($emailParams);
 
-                $host = "in-v3.mailjet.com";
-                $smtpPort = 587;
-                $smtpSecure = '';
-                if (!empty($this->settings_keys['smtp_host'])) {
-                    $host = $this->settings_keys['smtp_host'];
-                }
-                if (!empty($this->settings_keys['smtp_secure'])) {
-                    $smtpSecure = $this->settings_keys['smtp_secure'];
-                }
-                if (!empty($this->settings_keys['smtp_port'])) {
-                    $smtpPort = $this->settings_keys['smtp_port'];
-                }
+                $host = empty($this->settings_keys['smtp_host']) ? "in-v3.mailjet.com" : $this->settings_keys['smtp_host'];
+                $smtpPort = empty($this->settings_keys['smtp_port']) ? 587 : $this->settings_keys['smtp_port'];
+                $smtpSecure = empty($this->settings_keys['smtp_secure'])? '' : $this->settings_keys['smtp_secure'];
+
                 if (!empty($this->settings_keys['Send']) && $this->settings_keys['Send'] == 1) {
                     require_once(ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Libraries/phpmailer/PHPMailerAutoload.php'));
                     if (class_exists('PHPMailer')) {
@@ -237,7 +228,7 @@ class FormController extends ActionController {
                         $mail->SMTPSecure = $smtpSecure;
                         $mail->Port = $smtpPort;
                         $mail->setFrom($this->settings_keys['sender']);
-                        $mail->addAddress($email);
+                        $mail->addAddress($form->getEmail());
                         $mail->Subject = "Activation mail - Mailjet";
                         if (!empty($this->settings_keys['allowHtml']) && $this->settings_keys['allowHtml'] == 1) {
                             $mail->IsHTML(TRUE);
@@ -256,7 +247,7 @@ class FormController extends ActionController {
                     // Prepare and send the message
                     $mail->setSubject('Mailjet Activation Mail')
                         ->setFrom($email_sender)
-                        ->setTo($email)
+                        ->setTo($form->getEmail())
                         ->setBody($templateRendition)
                         ->send();
                     $message = $conf_message;

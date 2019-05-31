@@ -106,6 +106,15 @@
             <f:form.textfield property="properties" value="{properties}" type="hidden" class="form-control"/>
         </f:if>
 
+        <f:if condition="{generalMessage}">
+            <f:for each="{generalMessage}" as="message" iteration="iterator">
+                <p class="mj-error">{message}</p>
+            </f:for>
+        </f:if>
+
+        <f:if condition="{subscribtionMessage}">
+            <p class="mj-success">{subscribtionMessage}</p>
+        </f:if>
 
         <f:if condition="{submitLabel}">
             <f:then>

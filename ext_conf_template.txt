@@ -21,20 +21,20 @@ secretKey=
 # cat=api/901; type=string;  label=Sender email address;
 sender=
 
-# cat=api/901; type=user[EXT:mailjet/Classes/Utility/ExtensionManager.php:Mailjet\Ext\ExtensionManager->statusSync];  label=API status >;
+# cat=api/901; type=user[EXT:mailjet/Classes/Utility/ExtensionManager.php:Mailjet\Ext\ExtensionManager->statusSync]; label=API status >;
 api_status=status
 
-# cat=General Settings ; type=boolean; label=Send emails through Mailjet:Enable this option only if you installed PHPMailer library.;
+# cat=General Settings ; type=boolean; label=Send emails through Mailjet : Enable this option only if you have installed PHPMailer library.;
 Send=
 
 # cat=General Settings ; type=boolean; label=Allow HTML:If checked, the body of the e-mail will allow html code. If unchecked, the body will be converted to plain text.
 allowHtml=
 
-# cat=General Settings ; type=string; label=Mailjet SMTP host : Default - in-v .mailjet.com;
+# cat=General Settings ; type=string; label=Mailjet SMTP host : Default - in-v3.mailjet.com;
 smtp_host =
 
 
-# cat=General Settings ; type=string; label=Mailjet SMTP port : Port 465 - SSL only. Ports 25, 2525, 80, 587, 588 - TLS or no encryption;
+# cat=General Settings ; type=string; label=Mailjet SMTP port : Ports - 25, 2525, 80; 587, 588 - TLS or no encryption; 465 - SSL only. 
 smtp_port=
 
 # cat=General Settings ; type=string; label=Enable SSL communication with mailjet.com;

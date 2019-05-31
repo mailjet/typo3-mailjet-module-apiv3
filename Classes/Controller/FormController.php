@@ -15,6 +15,8 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use DrewM\Mailjet\MailJet;
 use TYPO3Fluid\Fluid\View\TemplateView;
+use Api\Mailjet\Service\DefaultMessagesService;
+
 
 
 
@@ -76,7 +78,7 @@ class FormController extends ActionController {
             'has_error' => false,
             'error_msg' => []
         ];
-        $error_message = 'Incorrect data values. Please enter the correct values according to the example of the description in the field : <%id>';
+
         $prop_names = explode(',', $form->getProperties());
         $contact_properties_raw = [
             $form->getProp1(),
@@ -92,7 +94,7 @@ class FormController extends ActionController {
 
         if (!(empty($contact_properties))) {
             foreach ($contact_properties as $key => $field) {
-                $error_input_data_types = !empty($form->getDataTypeMessage()) ? $form->getDataTypeMessage() : $error_message;
+                $error_input_data_types = DefaultMessagesService::getDataTypeMsg($form->getDataTypeMessage());
                 $error_input_data_types = '<div class="error error-fields">' . $error_input_data_types . '</div>';
                 $type = '';
 
@@ -164,67 +166,54 @@ class FormController extends ActionController {
 
     /**
      * @param FormDto|null $form
+     * @param array $validatedProperties
      */
-    protected function handleRegistration(FormDto $form = NULL, $validated_properties) {
+    protected function handleRegistration(FormDto $form = NULL, array $validatedProperties) {
+        $message = 'Unexpected Error!';
         try {
-            /** @var FormDto $data */
-
-            $error_message = 'Fatal error! Try again later.';
-            $success = 'Subscription confirmation email sent to %email! Please check your inbox and confirm the subscription.';
-            $message = '';
-            $email = $form->getEmail();
-            $emailParams['email_heading_text'] = !empty($form->getHeadingText()) ? $form->getHeadingText() : 'Please Confirm Your Subscription To';
-            $member_exist_text = !empty($form->getMemberExist()) ? $form->getMemberExist() : 'Subscriber exists in Mailjet database! Try different email address for subscribe.';
-            $member_exist_text = str_replace('%email', $email, $member_exist_text);
-            $email_sender = $form->getEmailSender();
-            $emailParams['owner'] = !empty($form->getOwner()) ? $form->getOwner() : 'Mailjet';
-            $conf_message = !empty($form->getConfMessage()) ? $form->getConfMessage() : $success;
-            $conf_message = str_replace('%email', $email, $conf_message);
-
-            $sub_error = !empty($form->getSubscribeError()) ? $form->getSubscribeError() : $error_message;
-            $emailParams['email_text_thank_you'] = !empty($form->getThanks()) ? $form->getThanks() : 'Thanks,';
-            $emailParams['email_footer_text'] = !empty($form->getEmailFooterMail()) ? $form->getEmailFooterMail() : 'Did not ask to subscribe to this list? Or maybe you have changed your mind? Then simply ignore this email and you will not be subscribed';
-            $emailParams['email_text_button'] = !empty($form->getConfButton()) ? $form->getConfButton() : 'Click here to confirm';
-            $list_id = $form->getListId();
-            $emailParams['email_text_description'] = !empty($form->getBodyText()) ? $form->getBodyText() : 'You may copy/paste this link into your browser:';
-
             $mailjet = $this->getMailjet();
+            $messageHelper = new DefaultMessagesService($form);
+
+            $confirmMessage = $messageHelper->getConfirmMessage();
+            $memberExistMessage = $messageHelper->getMemberExist();
+            $listId = $form->getListId();
+            $subscribeError = $messageHelper->getSubscribeError();
+
+            $emailParams['owner'] = $messageHelper->getOwner();
+            $emailParams['email_heading_text'] = $messageHelper->getHeadingText();
+            $emailParams['email_text_thank_you'] = $messageHelper->getThanksMessage();
+            $emailParams['email_footer_text'] = $messageHelper->getEmailFooterMessage();
+            $emailParams['email_text_button'] = $messageHelper->getConfButtonText();
+            $emailParams['email_text_description'] = $messageHelper->getBodyMessage();
+
             $prefix = (isset($_SERVER['HTTPS']) ? "https" : "http");
             $link = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
             $emailParams['link'] = $prefix . "://" . substr($link, 0, strpos($link, "&"));
-            $emailParams['link'] .= '&mj=' . base64_encode(json_encode(['Properties' => $validated_properties, 'Email' => $email])) . '&list=' . $list_id;
+            $emailParams['link'] .= '&mj=' . base64_encode(json_encode(['Properties' => $validatedProperties, 'Email' => $form->getEmail()])) . '&list=' . $listId;
             $emailParams['url'] = $prefix . "://" . $_SERVER['HTTP_HOST'];
 
-            $response_exist_user = TRUE;
-            $contact_params = [
+            $clientExists = TRUE;
+            $contactParams = [
                 'method' => 'GET',
-                'ContactEmail' => $email,
-                'ContactsList' => $list_id,
+                'ContactEmail' => $form->getEmail(),
+                'ContactsList' => $listId,
             ];
-            $result = $mailjet->listrecipient($contact_params)->getResponse();
+            $result = $mailjet->listrecipient($contactParams)->getResponse();
             // 1 - unsubscribed, !=1 - subscribed
             if ($result->Count < 1) {
-                $response_exist_user = FALSE;
+                $clientExists = FALSE;
             }
             if (!empty($result->Data) && $result->Data[0]->IsUnsubscribed == 1) {
-                $response_exist_user = FALSE;
+                $clientExists = FALSE;
             }
-            if ($response_exist_user == FALSE) {
+            if ($clientExists == FALSE) {
                 $templateHelper = new TemplatesViewHelper();
                 $templateRendition = $templateHelper->getSubscriptionEmailTemplate($emailParams);
 
-                $host = "in-v3.mailjet.com";
-                $smtpPort = 587;
-                $smtpSecure = '';
-                if (!empty($this->settings_keys['smtp_host'])) {
-                    $host = $this->settings_keys['smtp_host'];
-                }
-                if (!empty($this->settings_keys['smtp_secure'])) {
-                    $smtpSecure = $this->settings_keys['smtp_secure'];
-                }
-                if (!empty($this->settings_keys['smtp_port'])) {
-                    $smtpPort = $this->settings_keys['smtp_port'];
-                }
+                $host = empty($this->settings_keys['smtp_host']) ? "in-v3.mailjet.com" : $this->settings_keys['smtp_host'];
+                $smtpPort = empty($this->settings_keys['smtp_port']) ? 587 : $this->settings_keys['smtp_port'];
+                $smtpSecure = empty($this->settings_keys['smtp_secure'])? '' : $this->settings_keys['smtp_secure'];
+
                 if (!empty($this->settings_keys['Send']) && $this->settings_keys['Send'] == 1) {
                     require_once(ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Libraries/phpmailer/PHPMailerAutoload.php'));
                     if (class_exists('PHPMailer')) {
@@ -237,32 +226,32 @@ class FormController extends ActionController {
                         $mail->SMTPSecure = $smtpSecure;
                         $mail->Port = $smtpPort;
                         $mail->setFrom($this->settings_keys['sender']);
-                        $mail->addAddress($email);
-                        $mail->Subject = "Activation mail - Mailjet";
+                        $mail->addAddress($form->getEmail());
+                        $mail->Subject = "Please confirm your subscription";
                         if (!empty($this->settings_keys['allowHtml']) && $this->settings_keys['allowHtml'] == 1) {
                             $mail->IsHTML(TRUE);
                         }
                         $mail->Body = $templateRendition;
 
                         if ($mail->Send()) {
-                            $message = $conf_message;
+                            $message = $confirmMessage;
                         } else {
-                            $message = $sub_error;
+                            $message = $subscribeError;
                         }
                     }
                 } else {
                     // Create the message
                     $mail = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
                     // Prepare and send the message
-                    $mail->setSubject('Mailjet Activation Mail')
-                        ->setFrom($email_sender)
-                        ->setTo($email)
+                    $mail->setSubject('Please confirm your subscription')
+                        ->setFrom($this->settings_keys['sender'])
+                        ->setTo($form->getEmail())
                         ->setBody($templateRendition)
                         ->send();
-                    $message = $conf_message;
+                    $message = $confirmMessage;
                 }
             }else {
-                $message = $member_exist_text;
+                $message = $memberExistMessage;
             }
         } catch (MemberExistsException $e) {
             $this->view->assign('error', 'memberExists');
@@ -285,7 +274,7 @@ class FormController extends ActionController {
 
     private function confirmSubscription($list_id, $customer_data)
     {
-        $response_message = $this->settings['subscribeError'];
+        $response_message = empty($this->settings['subscribeError']) ? 'Subscribe error. Please try again later!' : $this->settings['subscribeError'];
         $mailjet = $this->getMailjet();
         $contact_params = [
             'method' => 'GET',
@@ -303,7 +292,7 @@ class FormController extends ActionController {
             $mailjet->resetRequest();
             $response = $mailjet->manageContact($list_id, $add_params);
             if ($response && $response->Total > 0) {
-                $response_message = $this->settings['finalMessage'];
+                $response_message = DefaultMessagesService::getSuccessMessage($this->settings['finalMessage']);
             }
         }
 

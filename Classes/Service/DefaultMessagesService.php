@@ -14,7 +14,7 @@ class DefaultMessagesService
 
     private $subscribeError = 'Subscribe error. Please try again later!';
 
-    private $memberExist = 'The contact %email is already subscribed!';
+    private static $memberExist = 'The contact %email is already subscribed!';
 
     private $thanksMessage = 'Thanks for subscribing!';
 
@@ -52,7 +52,7 @@ class DefaultMessagesService
 
     public function getMemberExist()
     {
-        $message = $this->memberExist;
+        $message = self::$memberExist;
         $email = $this->form->getEmail();
 
         if (!empty($this->form->getMemberExist())) {
@@ -142,5 +142,12 @@ class DefaultMessagesService
         }
 
         return self::$dataTypeMessage;
+    }
+
+    public static function getSubscribedMessage($email)
+    {
+        $message = self::$memberExist;
+
+        return str_replace('%email', $email, $message);
     }
 }

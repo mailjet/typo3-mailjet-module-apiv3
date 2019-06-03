@@ -252,7 +252,7 @@ class MailJet {
     curl_setopt($this->_curl_handle, CURLOPT_HTTPHEADER, ["Content-Type: " . $contType]);
     curl_setopt($this->_curl_handle, CURLOPT_SSL_VERIFYPEER, FALSE);
     curl_setopt($this->_curl_handle, CURLOPT_SSL_VERIFYHOST, 2);
-    curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'typo-3-1.0.2');
+    curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'typo-3-1.0.3');
 
     curl_setopt($this->_curl_handle, CURLOPT_USERPWD, $this->_apiKey . ':' . $this->_secretKey);
 
@@ -710,7 +710,7 @@ class MailJet {
     curl_setopt($this->_curl_handle, CURLOPT_TIMEOUT, 10); //timeout in seconds
     curl_setopt($this->_curl_handle, CURLOPT_USERPWD, $this->_apiKey . ':' . $this->_secretKey);
 
-    curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'typo-3-1.0.2');
+    curl_setopt($this->_curl_handle, CURLOPT_USERAGENT, 'typo-3-1.0.3');
 
 
     switch ($request) {
@@ -964,5 +964,27 @@ class MailJet {
       echo $this->_debugErrorHtml;
     }
   }
+
+  public function manageContact($listId, $params)
+    {
+        $this->_debugCallUrl = $this->_apiUrl = $url = "https://api.mailjet.com/v3/REST/contactslist/$listId/managecontact";
+        $this->_request_post = $params;
+        if (is_NULL($this->_curl_handle)) {
+            $this->_curl_handle = curl_init();
+        }
+
+        $string = json_encode($params);
+        curl_setopt($this->_curl_handle, CURLOPT_URL, $url);
+        curl_setopt($this->_curl_handle, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->_curl_handle, CURLOPT_HTTPHEADER, ["Content-Type: application/json", 'Content-Length: ' . strlen($string)]);
+        curl_setopt($this->_curl_handle, CURLOPT_USERPWD, $this->_apiKey . ':' . $this->_secretKey);
+        curl_setopt($this->_curl_handle, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($this->_curl_handle, CURLOPT_POSTFIELDS, $string);
+
+        $response = curl_exec($this->_curl_handle);
+        $this->_response_code = curl_getinfo($this->_curl_handle, CURLINFO_HTTP_CODE);
+        $this->_response = $this->_response_code;
+        return ($this->_response_code == 201) ? json_decode($response) : FALSE;
+    }
 
 }

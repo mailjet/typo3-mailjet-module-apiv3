@@ -12,13 +12,13 @@ class DefaultMessagesService
 
     private $confMessage = 'Subscription confirmation email sent to %email. Please check your inbox and confirm the subscription.';
 
-    private $subscribeError = 'Subscribe error. Please try again later!';
+    private $subscribeError = 'Subscription error. Please try again later!';
 
     private static $memberExist = 'The contact %email is already subscribed!';
 
     private $thanksMessage = 'Thanks for subscribing!';
 
-    private $headingText = 'Please Confirm Your Subscription To';
+    private $headingText = 'Please confirm your subscription to';
 
     private $emailFooterMsg = 'Did not ask to subscribe to this list? Or maybe you have changed your mind? Then simply ignore this email and you will not be subscribed.';
 
@@ -30,7 +30,7 @@ class DefaultMessagesService
 
     private static $successMessage = 'You have successfully subscribed!';
 
-    private static $dataTypeMessage = 'Please enter the correct values according to the example of the description in the field: %id.';
+    private static $dataTypeMessage = 'Please enter the correct values according to the example in the field: %id.';
 
     public function __construct(FormDto $formDto)
     {

@@ -254,7 +254,7 @@ class FormController extends ActionController {
         } catch (GeneralException $e) {
             $this->view->assign('error', 'general');
         }
-        $this->view->assignMultiple(['form' => $form, 'message' => $message,]);
+        $this->view->assignMultiple(['message' => $message,]);
     }
 
     private function getMailjet()

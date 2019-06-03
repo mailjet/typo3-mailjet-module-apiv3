@@ -59,41 +59,7 @@ class FormController extends ActionController {
         $validation = $this->validDataReg($form);
 
         if ($validation['has_error']){
-
-            $this->view->assignMultiple([
-                'form' => $form,
-                'email' => $this->settings['email'],
-                'prop1' => $this->settings['prop1string'],
-                'prop2' => $this->settings['prop2string'],
-                'prop3' => $this->settings['prop3string'],
-                'contact_prop1' => $form->getProp1(),
-                'contact_prop2' => $form->getProp2(),
-                'contact_prop3' => $form->getProp3(),
-                'prop1descpr' => $this->settings['prop1descr'],
-                'prop2descpr' => $this->settings['prop2descr'],
-                'prop3descpr' => $this->settings['prop3descr'],
-                'description' => $this->settings['descpription'],
-                'submitLabel' => $this->settings['submitLabel'],
-                'headingText' => $this->settings['headingText'],
-                'bodyText' => $this->settings['bodyText'],
-                'confButton' => $this->settings['confButton'],
-                'emailFooterMail' => $this->settings['emailFooterMail'],
-                'thanks' => $this->settings['thanks'],
-                'owner' => $this->settings['owner'],
-                'confMessage' => $this->settings['confMessage'],
-                'dataTypeMessage' => $this->settings['dataTypeMessage'],
-                'subscribeError' => $this->settings['subscribeError'],
-                'memberExist' => $this->settings['memberExist'],
-                'finalMessage' => $this->settings['finalMessage'],
-                'email_sender' => $this->settings['email_sender'],
-                'listId' => $this->settings['listId'],
-                'properties' => $this->settings['properties'],
-                'emailSender' => $this->settings['emailSender'],
-                'generalError' => is_array( $validation['error_msg']) ?  $validation['error_msg'] : null,
-                'subscriptionMessage' => (!is_null( $validation['error_msg']) && !is_array( $validation['error_msg'])) ?  $validation['error_msg'] : null]);
-
-
-
+            $this->view->assignMultiple($this->formatParamsArray($form, $this->settings, $validation['error_msg']));
         }else {
             $this->handleRegistration($form, $validation['contact_params']);
         }
@@ -343,17 +309,6 @@ class FormController extends ActionController {
                 $form->setEmail($prefill);
             }
         }
-        $arr_properties = [
-            $form->getProp1(),
-            $form->getProp2(),
-            $form->getProp3()
-        ];
-
-        $properties = $this->settings['properties'] ? $this->settings['properties'] : '';
-        if (is_string($properties)) {
-            $arr_properties = explode(",", $properties);
-        }
-
         $this->view->assignMultiple($this->formatParamsArray($form, $this->settings, $message));
     }
 
@@ -377,8 +332,8 @@ class FormController extends ActionController {
             'prop2' => $settings['prop2string'],
             'prop3' => $settings['prop3string'],
             'contact_prop1' => $arr_properties[0],
-            'contact_prop2' => $arr_properties[1],
-            'contact_prop3' => $arr_properties[2],
+            'contact_prop2' => $arr_properties[0],
+            'contact_prop3' => $arr_properties[0],
             'prop1descpr' =>$settings['prop1descr'],
             'prop2descpr' => $settings['prop2descr'],
             'prop3descpr' => $settings['prop3descr'],

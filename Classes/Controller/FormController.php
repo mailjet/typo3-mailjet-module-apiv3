@@ -57,6 +57,7 @@ class FormController extends ActionController {
             $this->redirect('index');
         }
         $validation = $this->validDataReg($form);
+
         if ($validation['has_error']){
             $this->view->assignMultiple($this->formatParamsArray($form, $this->settings, $validation['error_msg']));
         }else {
@@ -76,15 +77,16 @@ class FormController extends ActionController {
 
         $prop_names = explode(',', $form->getProperties());
         $contact_properties_raw = [
-            $form->getProp1(),
-            $form->getProp2(),
-            $form->getProp3()
+            ['name' => $this->settings['prop1string'], 'value' => $form->getProp1()],
+            ['name' => $this->settings['prop2string'], 'value' => $form->getProp2()],
+            ['name' => $this->settings['prop3string'], 'value' => $form->getProp3()]
         ];
 
         $contact_properties = [];
         foreach ($prop_names as $prop_key => $prop){
             $contact_properties[$prop] = $contact_properties_raw[$prop_key];
         }
+
         $mailjet = $this->getMailjet();
 
         if (!(empty($contact_properties))) {
@@ -92,8 +94,8 @@ class FormController extends ActionController {
                 $error_input_data_types = DefaultMessagesService::getDataTypeMsg($form->getDataTypeMessage());
                 $type = '';
 
-                if (!empty($field)) {
-                    $error_type = str_replace("%id", $key, $error_input_data_types);
+                if (!empty($field['value'])) {
+                    $error_type = str_replace("%id", $field['name'], $error_input_data_types);
                     $params = ['method' => 'GET', 'limit' => 0,];
                     $dataTypes = $mailjet->ContactMetaData($params)->getResponse();
 
@@ -108,27 +110,27 @@ class FormController extends ActionController {
                     $error = false;
                     switch ($type) {
                         case 'int':
-                            if (!preg_match('/^[0-9]{1,45}$/', $field) && !empty($field)) {
+                            if (!preg_match('/^[0-9]{1,45}$/', $field['value']) && !empty($field['value'])) {
                                 $error = str_replace("%type", 'number', $error_type). " Example (numbers): 1234";
 
                             } else {
-                                $result['contact_params'][$key] = (int)$field;
+                                $result['contact_params'][$key] = (int)$field['value'];
                             }
                             break;
                         case 'str':
-                            if (!is_string($field) && !empty($field)) {
+                            if (!is_string($field['value']) && !empty($field['value'])) {
                                 $error =  str_replace("%type", 'string', $error_type). " Example (text): First Name";
 
                             } else {
-                                $result['contact_params'][$key] = (string)$field;
+                                $result['contact_params'][$key] = (string)$field['value'];
                             }
                             break;
                         case 'datetime':
-                            if (!preg_match("/^\s*(3[01]|[12][0-9]|0?[1-9])\-(1[012]|0?[1-9])\-((?:19|20)\d{2})\s*$/", $field) && !empty($field)) {
+                            if (!preg_match("/^\s*(3[01]|[12][0-9]|0?[1-9])\-(1[012]|0?[1-9])\-((?:19|20)\d{2})\s*$/", $field['value']) && !empty($field['value'])) {
                                 $error =  str_replace("%type", 'datetime', $error_type). " Example (DATE): 26-02-2017";
                             } else {
-                                if (!empty($field)) {
-                                    $date = $field;
+                                if (!empty($field['value'])) {
+                                    $date = $field['value'];
                                     $date_array = explode("-", $date);
                                     if (checkdate($date_array[1], $date_array[0], $date_array[2]) == FALSE) {
                                         $error =  str_replace("%type", 'datetime', $error_type). " Example (DATE): 26-02-2017";
@@ -137,10 +139,10 @@ class FormController extends ActionController {
                             }
                             break;
                         case 'bool':
-                            if (!(strtoupper($field) == 'TRUE' || strtoupper($field) == 'FALSE') && !empty($field)) {
+                            if (!(strtoupper($field['value']) == 'TRUE' || strtoupper($field['value']) == 'FALSE') && !empty($field['value'])) {
                                 $error =  str_replace("%type", 'bool (true or false)', $error_type). " Example : True or False";
                             } else {
-                                $result['contact_params'][$key] = (bool)$field;
+                                $result['contact_params'][$key] = (bool)$field['value'];
                             }
                             break;
                     }
@@ -331,8 +333,8 @@ class FormController extends ActionController {
             'prop2' => $settings['prop2string'],
             'prop3' => $settings['prop3string'],
             'contact_prop1' => $arr_properties[0],
-            'contact_prop2' => $arr_properties[2],
-            'contact_prop3' => $arr_properties[3],
+            'contact_prop2' => $arr_properties[1],
+            'contact_prop3' => $arr_properties[2],
             'prop1descpr' =>$settings['prop1descr'],
             'prop2descpr' => $settings['prop2descr'],
             'prop3descpr' => $settings['prop3descr'],

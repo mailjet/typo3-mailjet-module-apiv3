@@ -44,22 +44,22 @@
                 %email. Please check your inbox and confirm the subscription. (Note: The '%email' symbol will be
                 replaced by the email address of the subscriber)
             </label>
-            <label index="flexform.dataTypeMessage">Data type mismatch - Default: Please enter the correct values according to
-                the example of the description in the field: %id. (Note: The %id symbol will be replaced by the name of
+            <label index="flexform.dataTypeMessage">Data type mismatch - Default: Please enter correct values according to
+                the example in the field: %id. (Note: The %id symbol will be replaced by the name of
                 field and the %type symbol will be replaced by the type of data required by the field)
             </label>
-            <label index="flexform.subscribeError">Subscribe error. Please try again later! - This message will appear
-                in case an error occurs during subscription form submission.
+            <label index="flexform.subscribeError">Subscription error. Please try again later! - Message shown in case 
+                an error occurs during subscription form submission.
             </label>
-            <label index="flexform.memberExist">The contact %email is already subscribed - This message will appear when
-                the subscriber already exists in your Mailjet contact list. (Note: The %email symbol will be replaced by the email
+            <label index="flexform.memberExist">The contact %email is already subscribed - Message shown in case the
+                subscriber already exists in your Mailjet contact list. (Note: The %email symbol will be replaced by the email
                 address of the subscriber)
             </label>
-            <label index="flexform.finalMessage">Thanks for subscribing - This message will appear when
-                the subscriber is successfully added to the contact list.
+            <label index="flexform.finalMessage">Thanks for subscribing - Message shown in case the subscriber 
+                is successfully added to the contact list.
             </label>
             <label index="flexform.email">Email field label</label>
-            <label index="flexform.emailSender">* Email FROM address - this is a required field! This is the email address used to send 
+            <label index="flexform.emailSender">* Email FROM address - This is a required field! This is the email address used to send 
                 the confirmation email to the subscriber! Use one of your validated sender email addresses from your Mailjet account. 
                 If the field is empty the subscriber will not receive the confirmation email and will not be able to subscribe!
             </label>

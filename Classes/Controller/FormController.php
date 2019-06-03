@@ -57,7 +57,6 @@ class FormController extends ActionController {
             $this->redirect('index');
         }
         $validation = $this->validDataReg($form);
-
         if ($validation['has_error']){
             $this->view->assignMultiple($this->formatParamsArray($form, $this->settings, $validation['error_msg']));
         }else {
@@ -354,8 +353,8 @@ class FormController extends ActionController {
             'listId' => $settings['listId'],
             'properties' => $settings['properties'],
             'emailSender' =>$settings['emailSender'],
-            'generalError' => is_array( $errors['error_msg']) ?  $errors['error_msg'] : null,
-            'subscriptionMessage' => (!is_null( $errors['error_msg']) && !is_array( $errors['error_msg'])) ?  $errors['error_msg'] : null];
+            'generalMessage' => is_array( $errors) ?  $errors : null,
+            'subscriptionMessage' => (!is_null( $errors) && !is_array( $errors)) ?  $errors : null];
 
         return $result;
     }

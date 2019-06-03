@@ -109,8 +109,8 @@
                 <f:form.textfield property="properties" value="{properties}" type="hidden" class="form-control"/>
             </f:if>
 
-            <f:if condition="{generalError}">
-                <f:for each="{generalError}" as="message" iteration="iterator">
+            <f:if condition="{generalMessage}">
+                <f:for each="{generalMessage}" as="message" iteration="iterator">
                     <p class="mj-error">{message}</p>
                 </f:for>
             </f:if>

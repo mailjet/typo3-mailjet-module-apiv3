@@ -59,18 +59,50 @@ class FormController extends ActionController {
         $validation = $this->validDataReg($form);
 
         if ($validation['has_error']){
-            $this->renderSubscriptionForm($form, $validation['error_msg']);
-//            $this->errorAction();
-            return false;
-        }
 
-        $this->handleRegistration($form, $validation['contact_params']);
+            $this->view->assignMultiple([
+                'form' => $form,
+                'email' => $this->settings['email'],
+                'prop1' => $this->settings['prop1string'],
+                'prop2' => $this->settings['prop2string'],
+                'prop3' => $this->settings['prop3string'],
+                'contact_prop1' => $form->getProp1(),
+                'contact_prop2' => $form->getProp2(),
+                'contact_prop3' => $form->getProp3(),
+                'prop1descpr' => $this->settings['prop1descr'],
+                'prop2descpr' => $this->settings['prop2descr'],
+                'prop3descpr' => $this->settings['prop3descr'],
+                'description' => $this->settings['descpription'],
+                'submitLabel' => $this->settings['submitLabel'],
+                'headingText' => $this->settings['headingText'],
+                'bodyText' => $this->settings['bodyText'],
+                'confButton' => $this->settings['confButton'],
+                'emailFooterMail' => $this->settings['emailFooterMail'],
+                'thanks' => $this->settings['thanks'],
+                'owner' => $this->settings['owner'],
+                'confMessage' => $this->settings['confMessage'],
+                'dataTypeMessage' => $this->settings['dataTypeMessage'],
+                'subscribeError' => $this->settings['subscribeError'],
+                'memberExist' => $this->settings['memberExist'],
+                'finalMessage' => $this->settings['finalMessage'],
+                'email_sender' => $this->settings['email_sender'],
+                'listId' => $this->settings['listId'],
+                'properties' => $this->settings['properties'],
+                'emailSender' => $this->settings['emailSender'],
+                'generalError' => is_array( $validation['error_msg']) ?  $validation['error_msg'] : null,
+                'subscriptionMessage' => (!is_null( $validation['error_msg']) && !is_array( $validation['error_msg'])) ?  $validation['error_msg'] : null]);
+
+
+
+        }else {
+            $this->handleRegistration($form, $validation['contact_params']);
+        }
     }
 
     /**
      * @param FormDto|null $form
      */
-    protected function validDataReg(FormDto $form = NULL) {
+    private function validDataReg(FormDto $form = NULL) {
         $result = [
             'contact_params' => [],
             'has_error' => false,
@@ -93,11 +125,10 @@ class FormController extends ActionController {
         if (!(empty($contact_properties))) {
             foreach ($contact_properties as $key => $field) {
                 $error_input_data_types = DefaultMessagesService::getDataTypeMsg($form->getDataTypeMessage());
-                $error_input_data_types = '<div class="error error-fields">' . $error_input_data_types . '</div>';
                 $type = '';
 
                 if (!empty($field)) {
-                    $error_type = str_replace("<%id>", $key, $error_input_data_types);
+                    $error_type = str_replace("%id", $key, $error_input_data_types);
                     $params = ['method' => 'GET', 'limit' => 0,];
                     $dataTypes = $mailjet->ContactMetaData($params)->getResponse();
 
@@ -113,7 +144,7 @@ class FormController extends ActionController {
                     switch ($type) {
                         case 'int':
                             if (!preg_match('/^[0-9]{1,45}$/', $field) && !empty($field)) {
-                                $error = str_replace("%type", 'number', $error_type). "Example (numbers): 1234";
+                                $error = str_replace("%type", 'number', $error_type). " Example (numbers): 1234";
 
                             } else {
                                 $result['contact_params'][$key] = (int)$field;
@@ -121,7 +152,7 @@ class FormController extends ActionController {
                             break;
                         case 'str':
                             if (!is_string($field) && !empty($field)) {
-                                $error =  str_replace("%type", 'string', $error_type). "Example (text): First Name";
+                                $error =  str_replace("%type", 'string', $error_type). " Example (text): First Name";
 
                             } else {
                                 $result['contact_params'][$key] = (string)$field;
@@ -129,20 +160,20 @@ class FormController extends ActionController {
                             break;
                         case 'datetime':
                             if (!preg_match("/^\s*(3[01]|[12][0-9]|0?[1-9])\-(1[012]|0?[1-9])\-((?:19|20)\d{2})\s*$/", $field) && !empty($field)) {
-                                $error =  str_replace("%type", 'datetime', $error_input_data_types). "Example (DATE): 26-02-2017";
+                                $error =  str_replace("%type", 'datetime', $error_type). " Example (DATE): 26-02-2017";
                             } else {
                                 if (!empty($field)) {
                                     $date = $field;
                                     $date_array = explode("-", $date);
                                     if (checkdate($date_array[1], $date_array[0], $date_array[2]) == FALSE) {
-                                        $error =  str_replace("%type", 'datetime', $error_input_data_types). "Example (DATE): 26-02-2017";
+                                        $error =  str_replace("%type", 'datetime', $error_type). " Example (DATE): 26-02-2017";
                                     }
                                 }
                             }
                             break;
                         case 'bool':
                             if (!(strtoupper($field) == 'TRUE' || strtoupper($field) == 'FALSE') && !empty($field)) {
-                                $error =  str_replace("%type", 'bool (true or false)', $error_input_data_types). "Example : True or False";
+                                $error =  str_replace("%type", 'bool (true or false)', $error_type). " Example : True or False";
                             } else {
                                 $result['contact_params'][$key] = (bool)$field;
                             }
@@ -156,7 +187,7 @@ class FormController extends ActionController {
             }
         }else{
             $result['has_error'] = true;
-            $result['error_msg'][] = '<div class="error error-fields"> Your E-mail address is necessary for your subscription </div>';
+            $result['error_msg'][] = 'Your E-mail address is necessary for your subscription';
         }
 
         return $result;
@@ -166,7 +197,7 @@ class FormController extends ActionController {
      * @param FormDto|null $form
      * @param array $validatedProperties
      */
-    protected function handleRegistration(FormDto $form = NULL, array $validatedProperties) {
+    private function handleRegistration(FormDto $form = NULL, array $validatedProperties) {
         $message = 'Unexpected Error!';
         try {
             $mailjet = $this->getMailjet();
@@ -323,37 +354,54 @@ class FormController extends ActionController {
             $arr_properties = explode(",", $properties);
         }
 
-        $this->view->assignMultiple([
+        $this->view->assignMultiple($this->formatParamsArray($form, $this->settings, $message));
+    }
+
+    private function formatParamsArray($form, $settings, $errors)
+    {
+
+        $arr_properties = [
+            $form->getProp1(),
+            $form->getProp2(),
+            $form->getProp3()
+        ];
+
+        $properties = $settings['properties'] ? $settings['properties'] : '';
+        if (is_string($properties)) {
+            $arr_properties = explode(",", $properties);
+        }
+        $result = [
             'form' => $form,
-            'email' => $this->settings['email'],
-            'prop1' => $this->settings['prop1string'],
-            'prop2' => $this->settings['prop2string'],
-            'prop3' => $this->settings['prop3string'],
+            'email' => $settings['email'],
+            'prop1' => $settings['prop1string'],
+            'prop2' => $settings['prop2string'],
+            'prop3' => $settings['prop3string'],
             'contact_prop1' => $arr_properties[0],
             'contact_prop2' => $arr_properties[1],
             'contact_prop3' => $arr_properties[2],
-            'prop1descpr' => $this->settings['prop1descr'],
-            'prop2descpr' => $this->settings['prop2descr'],
-            'prop3descpr' => $this->settings['prop3descr'],
-            'description' => $this->settings['descpription'],
-            'submitLabel' => $this->settings['submitLabel'],
-            'headingText' => $this->settings['headingText'],
-            'bodyText' => $this->settings['bodyText'],
-            'confButton' => $this->settings['confButton'],
-            'emailFooterMail' => $this->settings['emailFooterMail'],
-            'thanks' => $this->settings['thanks'],
-            'owner' => $this->settings['owner'],
-            'confMessage' => $this->settings['confMessage'],
-            'dataTypeMessage' => $this->settings['dataTypeMessage'],
-            'subscribeError' => $this->settings['subscribeError'],
-            'memberExist' => $this->settings['memberExist'],
-            'finalMessage' => $this->settings['finalMessage'],
-            'email_sender' => $this->settings['email_sender'],
-            'listId' => $this->settings['listId'],
-            'properties' => $this->settings['properties'],
-            'emailSender' => $this->settings['emailSender'],
-            'generalError' => is_array($message) ? $message : null,
-            'subscribtionMessage' => (!is_array($message) && !is_null($message)) ? $message : null
-        ]);
+            'prop1descpr' =>$settings['prop1descr'],
+            'prop2descpr' => $settings['prop2descr'],
+            'prop3descpr' => $settings['prop3descr'],
+            'description' => $settings['descpription'],
+            'submitLabel' => $settings['submitLabel'],
+            'headingText' => $settings['headingText'],
+            'bodyText' => $settings['bodyText'],
+            'confButton' => $settings['confButton'],
+            'emailFooterMail' => $settings['emailFooterMail'],
+            'thanks' => $settings['thanks'],
+            'owner' => $settings['owner'],
+            'confMessage' => $settings['confMessage'],
+            'dataTypeMessage' => $settings['dataTypeMessage'],
+            'subscribeError' => $settings['subscribeError'],
+            'memberExist' => $settings['memberExist'],
+            'finalMessage' => $settings['finalMessage'],
+            'email_sender' => $settings['email_sender'],
+            'listId' => $settings['listId'],
+            'properties' => $settings['properties'],
+            'emailSender' =>$settings['emailSender'],
+            'generalError' => is_array( $errors['error_msg']) ?  $errors['error_msg'] : null,
+            'subscriptionMessage' => (!is_null( $errors['error_msg']) && !is_array( $errors['error_msg'])) ?  $errors['error_msg'] : null];
+
+        return $result;
     }
 }

@@ -3,7 +3,7 @@
 namespace Api\Mailjet\Domain\Model\Dto;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class MailjetOptionsUpdater {
 
@@ -31,13 +31,8 @@ class MailjetOptionsUpdater {
 
     $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
-    $configurationUtility = $objectManager->get(\TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility::class);
-    $newConfiguration = $configurationUtility->getCurrentConfiguration($this->ext_key);
-    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($newConfiguration,  $this->config_options);
-    $configurationUtility->writeConfiguration(
-      $configurationUtility->convertValuedToNestedConfiguration($newConfiguration),
-      $this->ext_key
-    );
+    $configuration = $objectManager->get(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class);
+    $configuration->set($this->ext_key, $key, $value);
   }
 
 }

@@ -9,7 +9,7 @@
 ### Text ###
 ############
 
-# cat=api/901; type=user[EXT:mailjet/Classes/Utility/ExtensionManager.php:Mailjet\Ext\ExtensionManager->apiDescription]; label=API settings;
+# cat=api/901; type=user[Api\Mailjet\Utility\ExtensionManager->apiDescription]; label=API settings;
 apiset = desc
 
 # cat=api/901; type=string; label=API key;
@@ -21,7 +21,7 @@ secretKey=
 # cat=api/901; type=string;  label=Sender email address;
 sender=
 
-# cat=api/901; type=user[EXT:mailjet/Classes/Utility/ExtensionManager.php:Mailjet\Ext\ExtensionManager->statusSync]; label=API status >;
+# cat=api/901; type=user[Api\Mailjet\Utility\ExtensionManager->statusSync]; label=API status >;
 api_status=status
 
 # cat=General Settings ; type=boolean; label=Send emails through Mailjet : Enable this option only if you have installed PHPMailer library.;
@@ -43,8 +43,8 @@ smtp_secure=
 # cat=General Settings ; type=string; label=Test email recipient;
 email_to =
 
-# cat=Account information; type=user[EXT:mailjet/Classes/Utility/ExtensionManager.php:Mailjet\Ext\ExtensionManager->accountInfo]; label=ACCOUNT INFORMATION;
+# cat=Account information; type=user[Api\Mailjet\Utility\ExtensionManager->accountInfo]; label=ACCOUNT INFORMATION;
 accInfo = info
 
-# cat=Account information; type=user; label=Sync field;
+# cat=Account information; type=user[Api\Mailjet\Utility\ExtensionManager->displaySyncField]; label=Sync field;
 sync_field =

@@ -4,7 +4,7 @@
  * THe class has a lot methods for custom type USER implementations for ext_conf_template.txt file.
  */
 
-namespace Mailjet\Ext;
+namespace Api\Mailjet\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Fab\Vidi\Configuration\ConfigurationUtility;
@@ -36,7 +36,7 @@ class ExtensionManager {
       $response = $mailjet->myprofile($paramsProfile)->getResponse();
 
       if (!empty($response)) {
-        $result_string = '<div style="font-weight:bold !important;color:green;font-size:20px;">OK</div><div style="font-size:20px;">Your creadintials are correct!</div>';
+        $result_string = '<div style="font-weight:bold !important;color:green;font-size:20px;">OK</div><div style="font-size:20px;">Your credentials are correct!</div>';
 
         if (!empty($settings['sender'])) {
           $params = [
@@ -432,6 +432,10 @@ class ExtensionManager {
       }
     }
     return $result_string;
+  }
+
+  function displaySyncField() {
+    return '';
   }
 
 }

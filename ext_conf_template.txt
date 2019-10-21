@@ -45,6 +45,3 @@ email_to =
 
 # cat=Account information; type=user[Api\Mailjet\Utility\ExtensionManager->accountInfo]; label=ACCOUNT INFORMATION;
 accInfo = info
-
-# cat=Account information; type=user[Api\Mailjet\Utility\ExtensionManager->displaySyncField]; label=Sync field;
-sync_field =

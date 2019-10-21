@@ -19,7 +19,7 @@ class ExtensionManager {
     require_once(ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Contrib/Mailjet/Mailjet.php'));
     $settings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
 
-    $result_sting = '<div style="font-weight:bold !important;font-size:22px;"> Empty API key and Secrey key. </div>';
+    $result_string = '<div style="font-weight:bold !important;font-size:22px;"> Empty API key and Secret key. </div>';
     $status_sender = '';
     if ((!empty($settings['apiKeyMailjet']) && !empty($settings['secretKey'])) && ($settings['apiKeyMailjet'] != '' && $settings['secretKey'] != '')) {
 
@@ -433,11 +433,6 @@ class ExtensionManager {
     }
     return $result_string;
   }
-
-  function displaySyncField() {
-    return '';
-  }
-
 }
 
 ?>

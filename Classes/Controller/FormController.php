@@ -7,7 +7,6 @@ use Api\Mailjet\Domain\Model\Dto\FormDto;
 use Api\Mailjet\Exception\GeneralException;
 use Api\Mailjet\Exception\MemberExistsException;
 use Api\Mailjet\Service\ApiService;
-use Api\Mailjet\Utility\ExtensionManager;
 use Api\Mailjet\ViewHelpers\TemplatesViewHelper;
 use TYPO3\CMS\About\Domain\Model\Extension;
 use TYPO3\CMS\Core\Exception;
@@ -17,7 +16,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use DrewM\Mailjet\MailJet;
 use TYPO3Fluid\Fluid\View\TemplateView;
 use Api\Mailjet\Service\DefaultMessagesService;
-use TYPO3\CMS\Extbase\Annotation\IgnoreValidation;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 
 
@@ -36,7 +35,7 @@ class FormController extends ActionController {
     }
 
     /**
-     * ignorevalidation $form
+     * @Extbase/IgnoreValidation("form")
      */
     public function indexAction(FormDto $form = NULL) {
         $message = null;

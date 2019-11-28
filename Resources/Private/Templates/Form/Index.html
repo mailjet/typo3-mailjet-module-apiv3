@@ -18,36 +18,36 @@
             </div>
         </div>
 
-        <f:if condition="{contact_prop1}">
+        <f:for each="{propertiesInfo}" as="prop" key="key">
             <div class="form-group">
-                <label class="col-sm-3 control-label">{prop1}</label>
+                <f:if condition="{prop.type} != 'bool'">
+                    <label class="col-sm-3 control-label">{prop.title}</label>
+                </f:if>
                 <div class="col-sm-9">
-                    <f:form.textfield property="prop1" type="text" class="form-control" required="1"/>
-                    <label style="margin-bottom:15px;" class="col-sm-3 control-label">{prop1descpr}</label>
+                    <f:switch expression="{prop.type}">
+                        <f:case value="int">
+                            <f:form.textfield property="{prop.input_property}" type="number" additionalAttributes="{min: '0'}" class="form-control" required="1"/>
+                        </f:case>
+                        <f:case value="float">
+                            <f:form.textfield property="{prop.input_property}" type="number" additionalAttributes="{step: 'any'}" class="form-control" required="1"/>
+                        </f:case>
+                        <f:case value="bool">
+                            <div style="display: flex">
+                                <f:form.checkbox id="{prop.contact_property}" property="{prop.input_property}" class="col-sm-2" style="display:inline; height:1.3em;" value="true"/>
+                                <label class="control-label" for="{prop.contact_property}">{prop.title}</label>
+                            </div>
+                        </f:case>
+                        <f:case value="datetime">
+                            <f:form.textfield property="{prop.input_property}" type="date" class="form-control" required="1"/>
+                        </f:case>
+                        <f:defaultCase>
+                            <f:form.textfield property="{prop.input_property}" type="text" class="form-control" required="1"/>
+                        </f:defaultCase>
+                    </f:switch>
+                    <label style="margin-bottom:15px;" class="col-sm-3 control-label">{prop.description}</label>
                 </div>
             </div>
-        </f:if>
-
-        <f:if condition="{contact_prop2}">
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{prop2}</label>
-                <div class="col-sm-9">
-                    <f:form.textfield property="prop2" type="text" class="form-control" required="1"/>
-                    <label  style="margin-bottom:15px;" class="col-sm-3 control-label">{prop2descpr}</label>
-                </div>
-            </div>
-        </f:if>
-
-        <f:if condition="{contact_prop3}">
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{prop3}</label>
-                <div class="col-sm-9">
-                    <f:form.textfield property="prop3" type="text" class="form-control" required="1"/>
-                    <label  style="margin-bottom:15px;" class="col-sm-3 control-label">{prop3descpr}</label>
-                </div>
-            </div>
-        </f:if>
-
+        </f:for>
 
         <f:if condition="{headingText}">
             <f:form.textfield property="headingText" value="{headingText}" type="hidden" class="form-control"/>

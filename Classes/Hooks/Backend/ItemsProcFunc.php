@@ -75,7 +75,7 @@ class ItemsProcFunc {
       $response = $mj->ContactMetaData($params)->getResponse();
       if ($response && isset($response->Count) && $response->Count >= 0) {
         foreach ($response->Data as $property) {
-          $properties[$property->Name] = $property->Name;
+          $properties[$property->ID] = $property->Name;
         }
       }
 

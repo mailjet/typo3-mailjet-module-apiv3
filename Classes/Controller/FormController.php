@@ -16,7 +16,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use DrewM\Mailjet\MailJet;
 use TYPO3Fluid\Fluid\View\TemplateView;
 use Api\Mailjet\Service\DefaultMessagesService;
-
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 
 
@@ -35,7 +35,7 @@ class FormController extends ActionController {
     }
 
     /**
-     * @dontvalidate $form
+     * @Extbase/IgnoreValidation("form")
      */
     public function indexAction(FormDto $form = NULL) {
         $message = null;
@@ -89,72 +89,66 @@ class FormController extends ActionController {
 
         $mailjet = $this->getMailjet();
 
-        if (!(empty($contact_properties))) {
-            foreach ($contact_properties as $key => $field) {
-                $error_input_data_types = DefaultMessagesService::getDataTypeMsg($form->getDataTypeMessage());
-                $type = '';
-
-                if (!empty($field['value'])) {
-                    $error_type = str_replace("%id", $field['name'], $error_input_data_types);
-                    $params = ['method' => 'GET', 'limit' => 0,];
-                    $dataTypes = $mailjet->ContactMetaData($params)->getResponse();
-
-                    if ($dataTypes && isset($dataTypes->Count) && $dataTypes->Count >= 0) {
-                        foreach ($dataTypes->Data as $property) {
-                            if ($property->Name == $key) {
-                                $type = $property->Datatype;
-                                break;
-                            }
-                        }
-                    }
-                    $error = false;
-                    switch ($type) {
-                        case 'int':
-                            if (!preg_match('/^[0-9]{1,45}$/', $field['value']) && !empty($field['value'])) {
-                                $error = str_replace("%type", 'number', $error_type). " Example (numbers): 1234";
-
-                            } else {
-                                $result['contact_params'][$key] = (int)$field['value'];
-                            }
-                            break;
-                        case 'str':
-                            if (!is_string($field['value']) && !empty($field['value'])) {
-                                $error =  str_replace("%type", 'string', $error_type). " Example (text): First Name";
-
-                            } else {
-                                $result['contact_params'][$key] = (string)$field['value'];
-                            }
-                            break;
-                        case 'datetime':
-                            if (!preg_match("/^\s*(3[01]|[12][0-9]|0?[1-9])\-(1[012]|0?[1-9])\-((?:19|20)\d{2})\s*$/", $field['value']) && !empty($field['value'])) {
-                                $error =  str_replace("%type", 'datetime', $error_type). " Example (DATE): 26-02-2017";
-                            } else {
-                                if (!empty($field['value'])) {
-                                    $date = $field['value'];
-                                    $date_array = explode("-", $date);
-                                    if (checkdate($date_array[1], $date_array[0], $date_array[2]) == FALSE) {
-                                        $error =  str_replace("%type", 'datetime', $error_type). " Example (DATE): 26-02-2017";
-                                    }
-                                }
-                            }
-                            break;
-                        case 'bool':
-                            if (!(strtoupper($field['value']) == 'TRUE' || strtoupper($field['value']) == 'FALSE') && !empty($field['value'])) {
-                                $error =  str_replace("%type", 'bool (true or false)', $error_type). " Example : True or False";
-                            } else {
-                                $result['contact_params'][$key] = (bool)$field['value'];
-                            }
-                            break;
-                    }
-                    if ($error) {
-                        $result['has_error'] = true;
-                        $result['error_msg'][] = $error;
-                    }
-                }
-            }
-        }else{
+        if ((empty($contact_properties))) {
             $result['has_error'] = true;
             $result['error_msg'][] = 'Your E-mail address is necessary for your subscription';
+            return $result;
+        }
+
+        foreach ($contact_properties as $key => $field) {
+            $error_input_data_types = DefaultMessagesService::getDataTypeMsg($form->getDataTypeMessage());
+            $type = '';
+
+            $error_type = str_replace("%id", $field['name'], $error_input_data_types);
+            $params = ['method' => 'GET', 'limit' => 0, 'ID' => $key];
+            $contactPropertyInfo = $mailjet->ContactMetaData($params)->getResponse()->Data;
+
+            if (is_array($contactPropertyInfo) && count($contactPropertyInfo) > 0) {
+                $type = $contactPropertyInfo[0]->Datatype;
+                $propertyKey = $contactPropertyInfo[0]->Name;
+            }
+            if ($type === 'bool') {
+                $result['contact_params'][$propertyKey] = (bool)$field['value'];
+            }
+            else if (!empty($field['value'])) {
+                $error = false;
+                switch ($type) {
+                    case 'int':
+                        if (!preg_match('/^[0-9]{1,45}$/', $field['value'])) {
+                            $error = str_replace("%type", 'integer', $error_type). " Example (numbers): 1234";
+                        } else {
+                            $result['contact_params'][$propertyKey] = (int)$field['value'];
+                        }
+                        break;
+                    case 'float':
+                        if (!preg_match('/\-?\d+\.?\d*/', $field['value'])) {
+                            $error = str_replace("%type", 'float', $error_type). " Example (float): 12.34";
+                        } else {
+                            $result['contact_params'][$propertyKey] = (int)$field['value'];
+                        }
+                        break;
+                    case 'str':
+                        if (!is_string($field['value'])) {
+                            $error =  str_replace("%type", 'string', $error_type). " Example (text): First Name";
+                        } else {
+                            $result['contact_params'][$propertyKey] = (string)$field['value'];
+                        }
+                        break;
+                    case 'datetime':
+                        $date = \DateTime::createFromFormat('Y-m-d', $field['value'], new \DateTimeZone('UTC'));
+                        if ($date !== false) {
+                            $result['contact_params'][$propertyKey] = $date->format(\DateTime::RFC3339);
+                        }
+                        else {
+                            $error =  str_replace("%type", 'datetime', $error_type). " Enter a valid date.";
+                        }
+                        break;
+                }
+                if ($error) {
+                    $result['has_error'] = true;
+                    $result['error_msg'][] = $error;
+                }
+            }
         }
 
         return $result;
@@ -277,7 +271,7 @@ class FormController extends ActionController {
             'ContactEmail' => $customer_data->Email,
             'ContactsList' => $list_id,
         ];
-        $result = $mailjet->contactdata($contact_params)->getResponse();
+        $result = $mailjet->listrecipient($contact_params)->getResponse();
         if (!isset($result->Count)){
             return $response_message;
         }
@@ -326,18 +320,29 @@ class FormController extends ActionController {
         if (is_string($properties)) {
             $arr_properties = explode(",", $properties);
         }
+        $propertiesInfo = [];
+        $mailjet = $this->getMailjet();
+        foreach($arr_properties as $keyProp => $prop) {
+            $id = (int)$keyProp + 1;
+            if (!empty($prop)) {
+                $params = ['method' => 'GET', 'limit' => 0, 'ID' => $prop];
+                $data = $mailjet->ContactMetaData($params)->getResponse()->Data;
+                if (is_array($data) && count($data) > 0) {
+                    $type = $data[0]->Datatype;
+                    $propertiesInfo['prop' . $id] = array(
+                        'title' => $settings['prop' . $id . 'string'],
+                        'description' => $settings['prop' . $id . 'descr'],
+                        'input_property' => 'prop' . $id,
+                        'contact_property' => $prop,
+                        'type' => $type
+                    );
+                }
+            }
+        }
         $result = [
             'form' => $form,
+            'propertiesInfo' => $propertiesInfo,
             'email' => $settings['email'],
-            'prop1' => $settings['prop1string'],
-            'prop2' => $settings['prop2string'],
-            'prop3' => $settings['prop3string'],
-            'contact_prop1' => $arr_properties[0],
-            'contact_prop2' => $arr_properties[1],
-            'contact_prop3' => $arr_properties[2],
-            'prop1descpr' =>$settings['prop1descr'],
-            'prop2descpr' => $settings['prop2descr'],
-            'prop3descpr' => $settings['prop3descr'],
             'description' => $settings['descpription'],
             'submitLabel' => $settings['submitLabel'],
             'headingText' => $settings['headingText'],

@@ -3,7 +3,8 @@
 namespace Api\Mailjet\Domain\Model\Dto;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 class MailjetOptionsUpdater {
 
@@ -27,17 +28,24 @@ class MailjetOptionsUpdater {
 
     $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->ext_key] = serialize($this->config_options);
 
-    $extensionConfigurationMailjet = GeneralUtility::makeInstance('Api\\Mailjet\\Domain\\Model\\Dto\\ExtensionConfigurationMailjet');
-
     $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
-    $configurationUtility = $objectManager->get(\TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility::class);
-    $newConfiguration = $configurationUtility->getCurrentConfiguration($this->ext_key);
-    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($newConfiguration,  $this->config_options);
-    $configurationUtility->writeConfiguration(
-      $configurationUtility->convertValuedToNestedConfiguration($newConfiguration),
-      $this->ext_key
-    );
+    $version = VersionNumberUtility::getCurrentTypo3Version();
+    $mainVersionNumber = VersionNumberUtility::convertVersionStringToArray($version)['version_main'];
+
+    if ($mainVersionNumber >= 9) {
+        $configuration = $objectManager->get(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class);
+        $configuration->set($this->ext_key, $key, $value);
+    }
+    else {
+        $configurationUtility = $objectManager->get(\TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility::class);
+        $newConfiguration = $configurationUtility->getCurrentConfiguration($this->ext_key);
+        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($newConfiguration,  $this->config_options);
+        $configurationUtility->writeConfiguration(
+            $configurationUtility->convertValuedToNestedConfiguration($newConfiguration),
+            $this->ext_key
+        );
+    }
   }
 
 }

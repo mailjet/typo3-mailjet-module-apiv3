@@ -5,15 +5,16 @@
   "description": "Mailjet integration to let users subscribe to a specific list.",
   "keywords": [
     "TYPO3",
-    "extension",
-    "mailjet"
+    "Email",
+    "Marketing",
+    "SMTP"
   ],
-  "homepage": "http://maijlet.com",
+  "homepage": "https://mailjet.com",
   "authors": [
     {
-      "name": "Alex Jelin",
+      "name": "Mailjet Plugins",
       "role": "Developer",
-      "homepage": "http://maijlet.com"
+      "homepage": "https://mailjet.com"
     }
   ],
   "license": [

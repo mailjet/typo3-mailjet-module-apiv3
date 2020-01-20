@@ -2,11 +2,8 @@
 
 namespace Api\Mailjet\Hooks\Backend;
 
-use Api\Mailjet\Service\ApiService;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use DrewM\Mailjet\MailJet;
 
 class PageLayoutViewHook {
 
@@ -39,13 +36,9 @@ class PageLayoutViewHook {
   /** @var  DatabaseConnection */
   protected $databaseConnection;
 
-  /** @var ApiService */
-  protected $api;
-
   public function __construct() {
     /** @var DatabaseConnection databaseConnection */
     $this->databaseConnection = $GLOBALS['TYPO3_DB'];
-    $this->api = GeneralUtility::makeInstance('Api\\Mailjet\\Service\\ApiService');
   }
 
 

@@ -24,7 +24,7 @@ namespace DrewM\Mailjet;
  * @class  Api
  * @version  0.2
  */
-class MailJet {
+class Mailjet {
 
   /**
    * Mailjet API Key

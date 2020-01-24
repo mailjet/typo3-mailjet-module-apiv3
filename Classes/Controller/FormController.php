@@ -4,17 +4,11 @@ namespace Api\Mailjet\Controller;
 
 use Api\Mailjet\Domain\Model\Dto\ExtensionConfiguration;
 use Api\Mailjet\Domain\Model\Dto\FormDto;
-use Api\Mailjet\Exception\GeneralException;
-use Api\Mailjet\Exception\MemberExistsException;
-use Api\Mailjet\Service\ApiService;
 use Api\Mailjet\ViewHelpers\TemplatesViewHelper;
 use TYPO3\CMS\About\Domain\Model\Extension;
-use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use DrewM\Mailjet\MailJet;
-use TYPO3Fluid\Fluid\View\TemplateView;
 use Api\Mailjet\Service\DefaultMessagesService;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 
@@ -22,16 +16,13 @@ use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 class FormController extends ActionController {
 
-    /** @var ApiService $service */
-    protected $registrationService;
-
     private $mailjet;
 
     private $settings_keys;
 
     public function initializeAction() {
         $this->settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
-        $this->registrationService = GeneralUtility::makeInstance('Api\\Mailjet\\Service\\ApiService');
+        require_once ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Contrib/Mailjet/Mailjet.php');
     }
 
     /**
@@ -159,15 +150,12 @@ class FormController extends ActionController {
      * @param array $validatedProperties
      */
     private function handleRegistration(FormDto $form = NULL, array $validatedProperties) {
-        $message = 'Unexpected Error!';
+        $isSent = false;
+        $messageHelper = GeneralUtility::makeInstance('Api\\Mailjet\\Service\\DefaultMessagesService', $form);
         try {
             $mailjet = $this->getMailjet();
-            $messageHelper = new DefaultMessagesService($form);
 
-            $confirmMessage = $messageHelper->getConfirmMessage();
-            $memberExistMessage = $messageHelper->getMemberExist();
             $listId = $form->getListId();
-            $subscribeError = $messageHelper->getSubscribeError();
 
             $emailParams['owner'] = $messageHelper->getOwner();
             $emailParams['email_heading_text'] = $messageHelper->getHeadingText();
@@ -182,7 +170,7 @@ class FormController extends ActionController {
             $emailParams['link'] .= '&mj=' . base64_encode(json_encode(['Properties' => $validatedProperties, 'Email' => $form->getEmail()])) . '&list=' . $listId;
             $emailParams['url'] = $prefix . "://" . $_SERVER['HTTP_HOST'];
 
-            $clientExists = TRUE;
+            $clientExists = true;
             $contactParams = [
                 'method' => 'GET',
                 'ContactEmail' => $form->getEmail(),
@@ -191,70 +179,47 @@ class FormController extends ActionController {
             $result = $mailjet->listrecipient($contactParams)->getResponse();
             // 1 - unsubscribed, !=1 - subscribed
             if ($result->Count < 1) {
-                $clientExists = FALSE;
+                $clientExists = false;
             }
             if (!empty($result->Data) && $result->Data[0]->IsUnsubscribed == 1) {
-                $clientExists = FALSE;
+                $clientExists = false;
             }
-            if ($clientExists == FALSE) {
-                $templateHelper = new TemplatesViewHelper();
-                $templateRendition = $templateHelper->getSubscriptionEmailTemplate($emailParams);
-
-                $host = empty($this->settings_keys['smtp_host']) ? "in-v3.mailjet.com" : $this->settings_keys['smtp_host'];
-                $smtpPort = empty($this->settings_keys['smtp_port']) ? 587 : $this->settings_keys['smtp_port'];
-                $smtpSecure = empty($this->settings_keys['smtp_secure'])? '' : $this->settings_keys['smtp_secure'];
-
+            if (!$clientExists) {
                 if (!empty($this->settings_keys['Send']) && $this->settings_keys['Send'] == 1) {
-                    require_once(ExtensionManagementUtility::extPath('mailjet', 'Resources/Private/Libraries/phpmailer/PHPMailerAutoload.php'));
-                    if (class_exists('PHPMailer')) {
-                        $mail = new \PHPMailer();
-                        $mail->isSMTP();
-                        $mail->Host = $host;
-                        $mail->SMTPAuth = TRUE;
-                        $mail->Username = $this->settings_keys['apiKeyMailjet'];
-                        $mail->Password = $this->settings_keys['secretKey'];
-                        $mail->SMTPSecure = $smtpSecure;
-                        $mail->Port = $smtpPort;
-                        $mail->setFrom($this->settings_keys['sender']);
-                        $mail->addAddress($form->getEmail());
-                        $mail->Subject = "Please confirm your subscription";
-                        if (!empty($this->settings_keys['allowHtml']) && $this->settings_keys['allowHtml'] == 1) {
-                            $mail->IsHTML(TRUE);
-                        }
-                        $mail->Body = $templateRendition;
-
-                        if ($mail->Send()) {
-                            $message = $confirmMessage;
-                        } else {
-                            $message = $subscribeError;
-                        }
-                    }
-                } else {
-                    // Create the message
-                    $mail = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
-                    // Prepare and send the message
-                    $mail->setSubject('Please confirm your subscription')
-                        ->setFrom($this->settings_keys['sender'])
-                        ->setTo($form->getEmail())
-                        ->setBody($templateRendition)
-                        ->send();
-                    $message = $confirmMessage;
+                    $apiKey = $this->settings_keys['apiKeyMailjet'];
+                    $secretKey = $this->settings_keys['secretKey'];
+                    $host = $this->settings_keys['smtp_host'];
+                    $smtpPort = $this->settings_keys['smtp_port'];
+                    $smtpSecure = $this->settings_keys['smtp_secure'];
+                    $mailerService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Api\\Mailjet\\Service\\MailjetMailerService', $apiKey, $secretKey, $host, $smtpSecure, $smtpPort);
+                    $sender = $this->settings_keys['sender'];
+                    $emailSubject = 'Please confirm your subscription';
+                    $templateHelper = new TemplatesViewHelper();
+                    $emailBody = $templateHelper->getSubscriptionEmailTemplate($emailParams);
+                    $allowHtml = !empty($this->settings_keys['allowHtml']) && $this->settings_keys['allowHtml'] == 1;
+                    $isSent = $mailerService->send($sender, $form->getEmail(), $emailSubject, $emailBody, $allowHtml);
                 }
             }else {
-                $message = $memberExistMessage;
+                $message = $messageHelper->getMemberExist();
             }
-        } catch (MemberExistsException $e) {
-            $this->view->assign('error', 'memberExists');
-        } catch (GeneralException $e) {
+        } catch (\Exception $e) {
             $this->view->assign('error', 'general');
         }
+        if (!isset($message)) {
+            if ($isSent) {
+                $message = $messageHelper->getConfirmMessage();
+            } else {
+                $message = $messageHelper->getSubscribeError();
+            }
+        }
+
         $this->view->assignMultiple(['message' => $message,]);
     }
 
     private function getMailjet()
     {
         if (!is_object($this->mailjet)){
-            $this->mailjet = new Mailjet($this->settings_keys['apiKeyMailjet'], $this->settings_keys['secretKey']);
+            $this->mailjet = GeneralUtility::makeInstance('DrewM\\Mailjet\\Mailjet', $this->settings_keys['apiKeyMailjet'], $this->settings_keys['secretKey']);
         }else{
             $this->mailjet->resetRequest();
         }

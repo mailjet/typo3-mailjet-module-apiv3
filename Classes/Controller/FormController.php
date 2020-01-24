@@ -150,7 +150,7 @@ class FormController extends ActionController {
      * @param array $validatedProperties
      */
     private function handleRegistration(FormDto $form = NULL, array $validatedProperties) {
-        $isSend = false;
+        $isSent = false;
         $messageHelper = GeneralUtility::makeInstance('Api\\Mailjet\\Service\\DefaultMessagesService', $form);
         try {
             $mailjet = $this->getMailjet();
@@ -192,11 +192,12 @@ class FormController extends ActionController {
                     $smtpPort = $this->settings_keys['smtp_port'];
                     $smtpSecure = $this->settings_keys['smtp_secure'];
                     $mailerService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Api\\Mailjet\\Service\\MailjetMailerService', $apiKey, $secretKey, $host, $smtpSecure, $smtpPort);
+                    $sender = $this->settings_keys['sender'];
                     $emailSubject = 'Please confirm your subscription';
                     $templateHelper = new TemplatesViewHelper();
                     $emailBody = $templateHelper->getSubscriptionEmailTemplate($emailParams);
                     $allowHtml = !empty($this->settings_keys['allowHtml']) && $this->settings_keys['allowHtml'] == 1;
-                    $isSend = $mailerService->send($this->settings_keys['sender'], $form->getEmail(), $emailSubject, $emailBody, $allowHtml);
+                    $isSent = $mailerService->send($sender, $form->getEmail(), $emailSubject, $emailBody, $allowHtml);
                 }
             }else {
                 $message = $messageHelper->getMemberExist();
@@ -205,7 +206,7 @@ class FormController extends ActionController {
             $this->view->assign('error', 'general');
         }
         if (!isset($message)) {
-            if ($isSend) {
+            if ($isSent) {
                 $message = $messageHelper->getConfirmMessage();
             } else {
                 $message = $messageHelper->getSubscribeError();

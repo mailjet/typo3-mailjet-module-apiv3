@@ -2,8 +2,8 @@
 
 ## Requirements
 
-- TYPO3 CMS 7.6 - 8.9
-- PHP 5.4 - 7.2
+- TYPO3 CMS 7.6 - 9
+- PHP 5.4 - 7.4
 - Mailjet API key and Secret key
 - License: GPL 2
 

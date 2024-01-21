@@ -30,7 +30,12 @@ class FormController extends ActionController {
     private $settings_keys;
 
     public function initializeAction() {
-        $this->settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
+        //$this->settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
+
+        $this->settings_keys = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+        )->get('mailjet');
+
         $this->registrationService = GeneralUtility::makeInstance('Api\\Mailjet\\Service\\ApiService');
     }
 
@@ -305,7 +310,7 @@ class FormController extends ActionController {
         if (is_null($form)) {
             /** @var FormDto $form */
             $form = GeneralUtility::makeInstance('Api\\Mailjet\\Domain\\Model\\Dto\\FormDto');
-            $prefill = GeneralUtility::_GP('email');
+            $prefill = $this->request->getParsedBody()['email'] ?? $this->request->getQueryParams()['email'] ?? null;
             if ($prefill) {
                 $form->setEmail($prefill);
             }

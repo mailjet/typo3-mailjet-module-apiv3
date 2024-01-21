@@ -16,6 +16,7 @@
                             <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.list</label>
                             <config>
                                 <type>select</type>
+                                <renderType>selectSingle</renderType>
                                 <itemsProcFunc>Api\Mailjet\Hooks\Backend\ItemsProcFunc->getLists</itemsProcFunc>
                                 <items>
                                     <numIndex index="1">
@@ -33,6 +34,7 @@
                             <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop</label>
                             <config>
                                 <type>select</type>
+                                <renderType>selectSingle</renderType>
                                 <itemsProcFunc>Api\Mailjet\Hooks\Backend\ItemsProcFunc->getProperties</itemsProcFunc>
                                 <items>
                                     <numIndex index="1">

@@ -794,7 +794,7 @@ class MailJet {
    * @param string $request Request method
    * @param string $url Url to target the request
    */
-  public function generalRequest($method = FALSE, $params = [], $request = "GET", $url) {
+  public function generalRequest($url, $method = FALSE, $params = [], $request = "GET") {
     $is_json_put = (isset($params['ID']) && !empty($params['ID']));
 
     if ($this->_debug != 0) {

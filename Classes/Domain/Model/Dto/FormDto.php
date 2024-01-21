@@ -8,8 +8,6 @@ class FormDto extends AbstractEntity {
 
   /**
    * @var string
-   * @validate NotEmpty
-   * @validate EmailAddress
    */
   protected $email;
 

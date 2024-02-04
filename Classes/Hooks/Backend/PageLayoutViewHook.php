@@ -42,8 +42,6 @@ class PageLayoutViewHook
 
     public function __construct()
     {
-        /** @var DatabaseConnection databaseConnection */
-        //$this->databaseConnection = $GLOBALS['TYPO3_DB'];
         $this->databaseConnection = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'];
         $this->api = GeneralUtility::makeInstance('Api\\Mailjet\\Service\\ApiService');
     }

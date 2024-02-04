@@ -5,15 +5,13 @@
     <sheets>
         <sDEF>
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>Subscription form configuration</sheetTitle>
-                </TCEforms>
+                <sheetTitle>Subscription form configuration</sheetTitle>
                 <type>array</type>
                 <el>
                     <!-- List -->
                     <settings.listId>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.list</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.list</label>
                             <config>
                                 <type>select</type>
                                 <renderType>selectSingle</renderType>
@@ -31,7 +29,7 @@
                     <!-- Properties -->
                     <settings.properties>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.prop</label>
                             <config>
                                 <type>select</type>
                                 <renderType>selectSingle</renderType>
@@ -50,7 +48,7 @@
                     <!-- Labels -->
                     <settings.email>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.email</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.email</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -58,7 +56,7 @@
                     </settings.email>
                     <settings.prop1string>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop1</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.prop1</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -66,7 +64,7 @@
                     </settings.prop1string>
                     <settings.prop2string>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop2</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.prop2</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -74,7 +72,7 @@
                     </settings.prop2string>
                     <settings.prop3string>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop3</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.prop3</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -82,7 +80,7 @@
                     </settings.prop3string>
                     <settings.prop1descr>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop1desc</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.prop1desc</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -90,7 +88,7 @@
                     </settings.prop1descr>
                     <settings.prop2descr>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop2desc</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.prop2desc</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -98,7 +96,7 @@
                     </settings.prop2descr>
                     <settings.prop3descr>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.prop3desc</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.prop3desc</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -106,7 +104,7 @@
                     </settings.prop3descr>
                     <settings.descpription>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.description</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.description</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -114,7 +112,7 @@
                     </settings.descpription>
                     <settings.submitLabel>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.submitLabel</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.submitLabel</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -135,7 +133,7 @@
 
                     <settings.headingText>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.headingText</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.headingText</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -143,7 +141,7 @@
                     </settings.headingText>
                     <settings.bodyText>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.bodyText</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.bodyText</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -151,7 +149,7 @@
                     </settings.bodyText>
                     <settings.confButton>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.confButton</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.confButton</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -159,7 +157,7 @@
                     </settings.confButton>
                     <settings.emailFooterMail>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.emailFooterMail
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.emailFooterMail
                             </label>
                             <config>
                                 <type>input</type>
@@ -168,7 +166,7 @@
                     </settings.emailFooterMail>
                     <settings.thanks>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.thanks</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.thanks</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -176,7 +174,7 @@
                     </settings.thanks>
                     <settings.owner>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.owner</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.owner</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -198,7 +196,7 @@
 
                     <settings.emailSender>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.emailSender</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.emailSender</label>
                             <config>
                                 <type>input</type>
                                 <eval>email</eval>
@@ -209,7 +207,7 @@
 
                     <settings.confMessage>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.confMessage</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.confMessage</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -217,7 +215,7 @@
                     </settings.confMessage>
                     <settings.dataTypeMessage>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.dataTypeMessage
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.dataTypeMessage
                             </label>
                             <config>
                                 <type>input</type>
@@ -226,7 +224,7 @@
                     </settings.dataTypeMessage>
                     <settings.subscribeError>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.subscribeError
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.subscribeError
                             </label>
                             <config>
                                 <type>input</type>
@@ -235,7 +233,7 @@
                     </settings.subscribeError>
                     <settings.memberExist>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.memberExist</label>
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.memberExist</label>
                             <config>
                                 <type>input</type>
                             </config>
@@ -244,7 +242,7 @@
 
                     <settings.finalMessage>
                         <TCEforms>
-                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:flexform.finalMessage
+                            <label>LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:flexform.finalMessage
                             </label>
                             <config>
                                 <type>input</type>

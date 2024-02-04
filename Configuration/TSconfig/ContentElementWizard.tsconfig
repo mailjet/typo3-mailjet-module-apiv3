@@ -4,8 +4,8 @@ mod {
             mailjet {
                 icon = ../typo3conf/ext/mailjet/ext_icon.png
                 iconIdentifier = ext-mailjet-wizard-icon
-                title = LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:plugin.title
-                description = LLL:EXT:mailjet/Resources/Private/Language/locallang.xml:plugin.description
+                title = LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:plugin.title
+                description = LLL:EXT:mailjet/Resources/Private/Language/locallang.xlf:plugin.description
                 tt_content_defValues {
                     CType = list
                     list_type = mailjet_registration

@@ -33,7 +33,6 @@ class ApiService
             \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
         )->get('mailjet');
 
-        //$settings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
         $this->api_mailjet = new Mailjet($settings['apiKeyMailjet'], $settings['secretKey']);
 
         $this->logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\LogManager')

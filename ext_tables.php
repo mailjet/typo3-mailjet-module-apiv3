@@ -1,7 +1,4 @@
 <?php
-if (!defined('TYPO3')) {
-  //die('Access denied.');
-}
 if (empty($_EXTKEY)) {
     $_EXTKEY ='mailjet';
 }

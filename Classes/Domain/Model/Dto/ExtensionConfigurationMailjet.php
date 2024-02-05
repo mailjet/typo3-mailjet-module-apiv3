@@ -23,7 +23,6 @@ class ExtensionConfigurationMailjet
         $settings = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
         )->get('mailjet');
-        //$settings = (array)unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
         foreach ($settings as $key => $value) {
             if (property_exists(__CLASS__, $key)) {
                 $this->$key = $value;

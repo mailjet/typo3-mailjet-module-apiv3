@@ -29,8 +29,10 @@ class FormController extends ActionController {
 
     private $settings_keys;
 
+    /**
+     * @return void
+     */
     public function initializeAction() {
-        //$this->settings_keys = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
 
         $this->settings_keys = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class

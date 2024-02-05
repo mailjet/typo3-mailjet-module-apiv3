@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:mailjet/Resources/Private/Language/locallang.xlf"
+		  date="2024-01-18T20:26:37Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+			<trans-unit id="plugin.title" resname="plugin.title">
+				<source><![CDATA[Mailjet]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.subformconf" resname="flexform.subformconf">
+				<source><![CDATA[Subscription form configuration]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.confirmationemals" resname="flexform.confirmationemals">
+				<source><![CDATA[Confirmation email customization]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.messageserrors" resname="flexform.messageserrors">
+				<source><![CDATA[Messages and errors]]></source>
+			</trans-unit>
+			<trans-unit id="plugin.description" resname="plugin.description">
+				<source><![CDATA[Create and edit a form to let users subscribe to a specific Mailjet
+    list.]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.title" resname="flexform.title">
+				<source><![CDATA[Title]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.list" resname="flexform.list">
+				<source><![CDATA[Mailjet contact list - Select a contact list where all new subscribers will be
+    added. You can create additional contact lists in your Mailjet account.]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.prop" resname="flexform.prop">
+				<source><![CDATA[Contact properties - Select up to 3 contact properties to be shown in your
+    subscription form.]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.prop1" resname="flexform.prop1">
+				<source><![CDATA[Label for the first contact property in the form]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.prop2" resname="flexform.prop2">
+				<source><![CDATA[Label for the second contact property in the form]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.prop3" resname="flexform.prop3">
+				<source><![CDATA[Label for the third contact property in the form]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.prop1desc" resname="flexform.prop1desc">
+				<source><![CDATA[Description for the first contact property in the form]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.prop2desc" resname="flexform.prop2desc">
+				<source><![CDATA[Description for the second contact property in the form]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.prop3desc" resname="flexform.prop3desc">
+				<source><![CDATA[Description for the third contact property in the form]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.placeholder" resname="flexform.placeholder">
+				<source><![CDATA[example@domain.com]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.description" resname="flexform.description">
+				<source><![CDATA[Form description]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.submitLabel" resname="flexform.submitLabel">
+				<source><![CDATA[Submit Button label]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.headingText" resname="flexform.headingText">
+				<source><![CDATA[Email Heading text]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.bodyText" resname="flexform.bodyText">
+				<source><![CDATA[Email Body text]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.confButton" resname="flexform.confButton">
+				<source><![CDATA[Email Confirmation Button text - This is the text of the button inside the
+    subscription confirmation email.]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.emailFooterMail" resname="flexform.emailFooterMail">
+				<source><![CDATA[Email Footer text]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.thanks" resname="flexform.thanks">
+				<source><![CDATA[Thanks,]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.owner" resname="flexform.owner">
+				<source><![CDATA[Owner - Site owner name, shown at the end of the subscription confirmation
+    email.]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.confMessage" resname="flexform.confMessage">
+				<source><![CDATA[Confirmation Message - Default: Subscription confirmation email sent to
+    %email. Please check your inbox and confirm the subscription. (Note: The '%email' symbol will be
+    replaced by the email address of the subscriber)]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.dataTypeMessage" resname="flexform.dataTypeMessage">
+				<source><![CDATA[Data type mismatch - Default: Please enter correct values according to
+    the example in the field: %id. (Note: The %id symbol will be replaced by the name of
+    field and the %type symbol will be replaced by the type of data required by the field)]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.subscribeError" resname="flexform.subscribeError">
+				<source><![CDATA[Subscription error. Please try again later! - Message shown in case
+    an error occurs during subscription form submission.]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.memberExist" resname="flexform.memberExist">
+				<source><![CDATA[The contact %email is already subscribed - Message shown in case the
+    subscriber already exists in your Mailjet contact list. (Note: The %email symbol will be replaced by the email
+    address of the subscriber)]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.finalMessage" resname="flexform.finalMessage">
+				<source><![CDATA[Thanks for subscribing - Message shown in case the subscriber
+    is successfully added to the contact list.]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.email" resname="flexform.email">
+				<source><![CDATA[Email field label]]></source>
+			</trans-unit>
+			<trans-unit id="flexform.emailSender" resname="flexform.emailSender">
+				<source><![CDATA[* Email FROM address - This is a required field! This is the email address used to send
+    the confirmation email to the subscriber! Use one of your validated sender email addresses from your Mailjet account.
+    If the field is empty the subscriber will not receive the confirmation email and will not be able to subscribe!]]></source>
+			</trans-unit>
+			<trans-unit id="field.email" resname="field.email">
+				<source><![CDATA[Email]]></source>
+			</trans-unit>
+			<trans-unit id="field.firstName" resname="field.firstName">
+				<source><![CDATA[First name]]></source>
+			</trans-unit>
+			<trans-unit id="field.lastName" resname="field.lastName">
+				<source><![CDATA[Last name]]></source>
+			</trans-unit>
+			<trans-unit id="field.interests" resname="field.interests">
+				<source><![CDATA[Interests]]></source>
+			</trans-unit>
+			<trans-unit id="error.memberExists" resname="error.memberExists">
+				<source><![CDATA[This email address is already subscribed!]]></source>
+			</trans-unit>
+			<trans-unit id="error.general" resname="error.general">
+				<source><![CDATA[A general error occurred, sorry!]]></source>
+			</trans-unit>
+			<trans-unit id="error.form.email.1221560718" resname="error.form.email.1221560718">
+				<source><![CDATA[Please provide an email address!]]></source>
+			</trans-unit>
+			<trans-unit id="error.form.email.1221559976" resname="error.form.email.1221559976">
+				<source><![CDATA[The provided email address is invalid!]]></source>
+			</trans-unit>
+			<trans-unit id="success.title" resname="success.title">
+				<source><![CDATA[You have successfully registered!]]></source>
+			</trans-unit>
+			<trans-unit id="success.description" resname="success.description">
+				<source><![CDATA[Please check your inbox to confirm your subscription!]]></source>
+			</trans-unit>
+			<trans-unit id="form.submit" resname="form.submit">
+				<source><![CDATA[Submit]]></source>
+			</trans-unit>
+			<trans-unit id="memberCount" resname="memberCount">
+				<source><![CDATA[Count of members]]></source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

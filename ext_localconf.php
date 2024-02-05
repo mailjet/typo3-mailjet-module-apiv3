@@ -1,14 +1,21 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-if (!defined('TYPO3_MODE')) {
+//MIHA
+if (!defined('TYPO3')) {
   die ('Access denied.');
 }
 
-$settings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['mailjet']);
+if (empty($_EXTKEY)) {
+    $_EXTKEY ='mailjet';
+}
+
+$settings = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+    \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+)->get('mailjet');
+
+
 if ($settings['Send'] == 1 && $settings['sync_field'] == 'on') {
 
   $host = "in-v3.mailjet.com";
@@ -33,38 +40,33 @@ if ($settings['Send'] == 1 && $settings['sync_field'] == 'on') {
 
 }
 else {
-  $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'mail';
+  $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'sendmail';
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-  'Api.' . $_EXTKEY,
-  'Registration',
-  [
-    'Form' => 'index,response,ajaxResponse',
-  ],
-  [
-    'Form' => 'index,response,ajaxResponse',
-  ]
+    'Mailjet',
+    'Registration',
+    [
+        \Api\Mailjet\Controller\FormController::class => 'index,response,ajaxResponse',
+    ],
+    [
+        \Api\Mailjet\Controller\FormController::class => 'index,response,ajaxResponse',
+    ]
+);
+
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+$iconRegistry->registerIcon(
+    'ext-mailjet-wizard-icon',
+    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+    ['source' => 'EXT:mailjet/ext_icon.png']
 );
 
 
-if (TYPO3_MODE === 'BE') {
-  if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_branch) >= \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger('7.0')) {
-    /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    $iconRegistry->registerIcon(
-      'ext-mailjet-wizard-icon',
-      \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-      ['source' => 'EXT:mailjet/ext_icon.png']
-    );
-  }
-
-
   // Page module hook
-  $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][$_EXTKEY . '_registration'][$_EXTKEY] =
+  $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['mailjet_registration']['mailjet'] =
     'Api\Mailjet\Hooks\Backend\PageLayoutViewHook->getExtensionSummary';
 
 
-}
-
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mailjet/Configuration/TSconfig/ContentElementWizard.txt">');
+ExtensionManagementUtility::addPageTSConfig(
+    '@import "EXT:mailjet/Configuration/TSconfig/ContentElementWizard.tsconfig"'
+);

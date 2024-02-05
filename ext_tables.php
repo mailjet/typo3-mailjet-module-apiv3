@@ -1,10 +1,10 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-  die('Access denied.');
+if (empty($_EXTKEY)) {
+    $_EXTKEY ='mailjet';
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-  'Api.' . $_EXTKEY,
+  'Mailjet',
   'Registration',
   'Mailjet'
 );

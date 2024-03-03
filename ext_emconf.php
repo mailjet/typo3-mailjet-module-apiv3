@@ -1,8 +1,4 @@
 <?php
-if (empty($_EXTKEY)) {
-    $_EXTKEY ='mailjet';
-}
-
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Mailjet Email Marketing',
     'description' => "Use Mailjet's SMTP to send Typo3 transactional emails. Add newsletter subscribers from Typo3 to your Mailjet contact lists.",
